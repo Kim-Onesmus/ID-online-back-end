@@ -16,6 +16,7 @@ urlpatterns = [
     path('id_status', views.IdStatus, name='id_status'),
     path('los_id', views.LostID, name='lost_id'),
     path('pay_id', views.PayView, name='pay_url'),
+    path('lostpay_id', views.PayView, name='lostpay_url'),
     path('my_id', views.MyIDView, name='myID_url'),
 
     path('about_us', views.AboutUs, name='about_us'),
