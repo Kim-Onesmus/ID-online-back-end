@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay
 # Register your models here.,
 
 @admin.register(Client)
@@ -42,3 +42,7 @@ class PayTable(admin.ModelAdmin):
 @admin.register(LostId)
 class LostIdTable(admin.ModelAdmin):
     list_display = ('client', 'created_date', 'created_time', 'select', 'text', 'status')
+
+@admin.register(LostPay)
+class LostPayTable(admin.ModelAdmin):
+    list_display = ()
