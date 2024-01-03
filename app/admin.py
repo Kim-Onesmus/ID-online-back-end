@@ -45,4 +45,4 @@ class LostIdTable(admin.ModelAdmin):
 
 @admin.register(LostPay)
 class LostPayTable(admin.ModelAdmin):
-    list_display = ()
+    list_display = ('client', 'created_date', 'created_time', 'number', 'amount')
