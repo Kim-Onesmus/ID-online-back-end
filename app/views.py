@@ -387,10 +387,10 @@ def ContactUs(request):
         contact_details = Contact.objects.create(client=client, name=name, email=email, subject=subject, message=message)
         contact_details.save()
 
-        subject = subject
-        message = message
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [request.user.email, ]
+        subject = contact_details.subject
+        message = f'Email from: {email} \n {contact_details.messange}'
+        email_from = request.user.email
+        recipient_list = [settings.EMAIL_HOST_USER, ]
         send_mail( subject, message, email_from, recipient_list )
 
         message.info(request, 'Messange sent')
