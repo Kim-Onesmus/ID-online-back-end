@@ -388,8 +388,8 @@ def ContactUs(request):
         contact_details.save()
 
         subject = contact_details.subject
-        message = f'Email from: {email} \n {contact_details.messange}'
-        email_from = request.user.email
+        message = f'Email from: {email} \n {contact_details.message}'
+        email_from = contact_details.email
         recipient_list = [settings.EMAIL_HOST_USER, ]
         send_mail( subject, message, email_from, recipient_list )
 
