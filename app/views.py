@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from .models import Client
 
 # Create your views here.
 def Register(request):
@@ -8,10 +10,41 @@ def Register(request):
         last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
+        password1 = request.POST['password1']
+
+        if password == password1:
+            if Client.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
+                return redirect('/')
+            else:
+                user_details = User.objects.create(first_name=first_name, last_name=last_name, email=email, username=email, password=password)
+                user_details.save()
+                
+                client_details = Client.objects.create(first_name=first_name, last_name=last_name, email=email, username=email)
+                client_details.save()
+
+                messages.info(request, 'Account created')
+                return redirect('login')
+        else:
+            messages.error(request, 'Password dont match')
+            return redirect('/')
     return render(request, 'app/register.html')
 
 
 def Login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.aauthenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.info(request, 'Welcome back')
+            return redirect('index')
+        else:
+            messages.error(request, 'Invalid details')
+            return redirect('login')
     return render(request, 'app/login.html')
 
 
