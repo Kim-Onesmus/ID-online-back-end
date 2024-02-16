@@ -1,0 +1,136 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>First Name</h3>
+                        <p>Onesmus</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer"><i class="f fa-arrow-circle-right"></i></a>
+                </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>Middle Name</h3><sup style="font-size: 20px"></sup></h3>
+                        <p>Kimanzi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer"><i class="f fa-arrow-circle-right"></i></a>
+                </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>Last Name</h3>
+                        <p>Muimi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer"><i class="f fa-arrow-circle-right"></i></a>
+                </div>
+            </div><!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>Email</h3>
+                        <p>Kimonesmuske@gmail.com</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer"><i class="f fa-arrow-circle-right"></i></a>
+                </div>
+            </div><!-- ./col -->
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-md-6">
+                <!-- The time line -->
+                <ul class="timeline">
+                    <!-- timeline time label -->
+                    <li class="time-label">
+                        <span class="bg-red">
+                            10 Feb. 2014
+                        </span>
+                    </li>
+                    <!-- /.timeline-label -->
+                    <!-- timeline item -->
+                    <li>
+                        <i class="fa fa-envelope bg-blue"></i>
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                            <h3 class="timeline-header"><a href="#">From Support Team</a></h3>
+                            <div class="timeline-body">
+                                Your security is our top priority. We want to remind you
+                                to exercise caution when providing personal information online
+                            </div>
+                            <div class='timeline-footer'>
+                                <a class="btn btn-primary btn-xs">Read more</a>
+                                <!-- <a class="btn btn-danger btn-xs">Delete</a> -->
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <!-- The time line -->
+                <ul class="timeline">
+                    <!-- timeline time label -->
+                    <li class="time-label">
+                        <span class="bg-red">
+                            10 Feb. 2014
+                        </span>
+                    </li>
+                    <!-- /.timeline-label -->
+                    <!-- timeline item -->
+                    <li>
+                        <i class="fa fa-envelope bg-blue"></i>
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                            <h3 class="timeline-header"><a href="#">From Support Team</a></h3>
+                            <div class="timeline-body">
+                                Remember, your online safety is a shared
+                                responsibility. Stay informed, stay vigilant,
+                                and together, let's create a
+                                secure online environment.
+                            </div>
+                            <div class='timeline-footer'>
+                                <a class="btn btn-primary btn-xs">Read more</a>
+                                <!-- <a class="btn btn-danger btn-xs">Delete</a> -->
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div>
+{% endblock content %}
