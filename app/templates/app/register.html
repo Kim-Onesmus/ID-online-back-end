@@ -48,26 +48,17 @@
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
                         <form role="form" method="post">
+                            {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">First Name</label>
-                                    <input type="name" class="form-control" name="first_name" id="exampleInputEmail1"
-                                        placeholder="Enter first name">
+                                    <input type="first_name" class="form-control" name="first_name" id="exampleInputEmail1"
+                                        placeholder="Enter first name" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="exampleInputPassword1">Middles name</label>
-                                    <input type="name" class="form-control" name="middle_name"
-                                        id="exampleInputPassword1" placeholder="Enter middle_name name">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputPassword1">Last Name</label>
-                                    <input type="name" class="form-control" name="last_name" id="exampleInputPassword1"
-                                        placeholder="Enter last name">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputPassword1">User Name</label>
-                                    <input type="name" class="form-control" name="username" id="exampleInputPassword1"
-                                        placeholder="Enter username">
+                                    <label for="exampleInputPassword1">Last name</label>
+                                    <input type="last_name" class="form-control" name="middle_name"
+                                        id="exampleInputPassword1" placeholder="Enter middle_name name" required>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputPassword1">Email</label>
