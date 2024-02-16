@@ -20,7 +20,7 @@ def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
 
 def IdStatus(request):
-    return render(request, 'app/idStatus.html')
+    return render(request, 'app/IdStatus.html')
 
 
 def AboutUs(request):
