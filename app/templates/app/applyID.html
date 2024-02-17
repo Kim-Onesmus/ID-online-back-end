@@ -43,26 +43,30 @@
                             <div class="box-body">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">First Name</label>
-                                    <p>{{request.user.client.first_name}}</p>
+                                    <p>{{ request.user.client.first_name }}</p>
+                                    <input type="hidden" name="first_name" value="{{ request.user.client.first_name }}">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputPassword1">Middle Name</label>
-                                    <p>{{request.user.client.sur_name}}</p>
+                                    <p>{{ request.user.client.sur_name }}</p>
+                                    <input type="hidden" name="sur_name" value="{{ request.user.client.sur_name }}">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputPassword1">Last Name</label>
-                                    <p>{{request.user.client.last_name}}</p>
+                                    <p>{{ request.user.client.last_name }}</p>
+                                    <input type="hidden" name="last_name" value="{{ request.user.client.last_name }}">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputPassword1">Date of Birth</label>
-                                    <input type="date" class="form-control" id="exampleInputPassword1" required>
+                                    <input type="date" class="form-control" name="date_of_birth" required>
                                 </div>
                             </div>
 
-                            <div class="box-footer">
+                            <div style="text-align: center;" class="box-footer">
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
