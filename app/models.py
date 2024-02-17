@@ -32,6 +32,7 @@ class LocatioDetails(models.Model):
     date = models.DateField(auto_now_add=True)
     county = models.CharField(max_length=100)
     sub_county = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
     division = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     sub_location = models.CharField(max_length=100)

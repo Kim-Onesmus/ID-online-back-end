@@ -93,18 +93,22 @@ def LocationData(request):
         client = request.user
         county = request.POST['county']
         sub_county = request.POST['sub_county']
+        district = request.POST['district']
         division = request.POST['division']
         location = request.POST['location']
         sub_location = request.POST['sub_location']
         village = request.POST['village']
         land_mark = request.POST['land_mark']
 
-        lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
+        lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, district=district, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
         lacatio_data.save()
         return redirect('confirmation_documents')
     else:
         return render(request, 'app/location.html')
     return render(request, 'app/location.html')
+
+def ConfirmationDocuments(request):
+    return render(request, 'app/confirmationDocs.html')
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')

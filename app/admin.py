@@ -15,3 +15,7 @@ class NotificationTable(admin.ModelAdmin):
 @admin.register(applyID)
 class applyIDTable(admin.ModelAdmin):
     list_display = ('client', 'first_name', 'middle_name', 'last_name', 'date_of_birth')
+
+@admin.register(LocatioDetails)
+class LocatioDetailsTable(admin.ModelAdmin):
+    list_display = ('client', 'date', 'county', 'sub_county', 'district', 'division', 'location', 'sub_location', 'village', 'land_mark')
