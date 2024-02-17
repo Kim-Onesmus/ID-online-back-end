@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Client
+from .forms import ClientForm
 
 # Create your views here.
 def Register(request):
@@ -83,7 +84,18 @@ def AccountDetails(request):
     return render(request, 'app/accountDetails.html', context)
 
 def UpdateAccount(request):
-    return render(request, 'app/updateAccount.html')
+    user = request.user
+    client = Client.objects.filter(user=user).first()
+    form = ClientForm(instance=client)
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES, instance=client)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Account updated')
+            return redirect('update_account')
+
+    context = {'client':client, 'form':form}
+    return render(request, 'app/updateAccount.html', context)
 
 def ChangePassword(request):
     return render(request, 'app/changePassword.html')

@@ -46,12 +46,24 @@
                                     {{data.email}}
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="exampleInputEmail1">Phone</label> <br>
-                                    Onesmus Kimanzi
+                                    <label for="exampleInputEmail1">Username</label> <br>
+                                    {{data.username}}
                                 </div>
+                                {% if data.phone %}
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Phone</label> <br>
+                                    {{data.phone}}
+                                </div>
+                                {% endif %}
+                                {% if data.date_of_birth %}
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Phone</label> <br>
+                                    {{data.date_of_birth}}
+                                </div>
+                                {% endif %}
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Gender</label> <br>
-                                    Onesmus Kimanzi
+                                    {{data.gender}}
                                 </div>
                             </div>
                             {% endfor %}

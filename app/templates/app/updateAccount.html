@@ -26,7 +26,7 @@
                         <div class="box-body">
                             <div style="text-align: center;" class="form-group">
                                 <img style="width: 200px; height: 200px; border-radius: 50%;"
-                                    src="dist/img/user2-160x160.jpg" class="user-image" />
+                                    src="{{request.user.client.profile_picture}}" class="user-image" />
                             </div>
                         </div><!-- /.box-body -->
                     </form>
@@ -36,36 +36,53 @@
                 <!-- general form elements disabled -->
                 <div class="box box-warning">
                     <div class="box-body">
-                        <form role="form">
+                        <form role="form" method="post">
+                            {% csrf_token %}
                             <div class="box-body">
+                                {{form.first_name.as_hidden}}
+                                {{form.date_of_birth.as_hidden}}
                                 <div class="form-group col-md-6">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <input type="Name" class="form-control" id="exampleInputEmail1"
-                                        placeholder="Enter email">
+                                    <label for="exampleInputEmail1">First Name</label>
+                                    {{form.first_name}}
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="exampleInputPassword1">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputPassword1"
-                                        placeholder="Password">
+                                    <label for="exampleInputEmail1">Last Name</label>
+                                    {{form.last_name}}
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="exampleInputPassword1">Subject</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1"
-                                        placeholder="Password">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Sur Name</label>
+                                    {{form.sur_name}}
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="exampleInputPassword1">Message</label>
-                                    <textarea class="form-control" rows="5"></textarea>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Email</label>
+                                    {{form.email}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Username</label>
+                                    {{form.username}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Gender</label>
+                                    {{form.gender}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Phone Number</label>
+                                    {{form.phone}}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Profile Picture</label>
+                                    {{form.profile_picture}}
                                 </div>
                             </div>
 
-                            <div class="box-footer">
+                            <div style="text-align: center;" class="box-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 </div>
 
