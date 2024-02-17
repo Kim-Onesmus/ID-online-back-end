@@ -20,7 +20,7 @@ def Register(request):
                 user_details = User.objects.create(first_name=first_name, last_name=last_name, email=email, username=email, password=password)
                 user_details.save()
                 
-                client_details = Client.objects.create(first_name=first_name, last_name=last_name, email=email, username=email)
+                client_details = Client.objects.create(first_name=first_name, last_name=last_name, email=email)
                 client_details.save()
 
                 messages.info(request, 'Account created')
@@ -36,7 +36,7 @@ def Login(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = auth.aauthenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
 
         if user is not None:
             auth.login(request, user)
