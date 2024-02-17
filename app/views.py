@@ -88,6 +88,8 @@ def ApplyID(request):
         return render(request, 'app/applyID.html')
     return render(request, 'app/applyID.html')
 
+def Location(request):
+    return render(request, 'app/location.html')
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
