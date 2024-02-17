@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .models import Client, Notification, applyID, LocatioDetails
-from .forms import ClientForm
+from .forms import ClientForm, ConfirmationDocumentForm
 from datetime import datetime, date
 
 # Create your views here.
@@ -108,7 +108,15 @@ def LocationData(request):
     return render(request, 'app/location.html')
 
 def ConfirmationDocuments(request):
-    return render(request, 'app/confirmationDocs.html')
+    form = ConfirmationDocumentForm()
+    if request.method == 'POST':
+        form = ConfirmationDocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect()
+
+    context = {'form':form}
+    return render(request, 'app/confirmationDocs.html', context)
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')

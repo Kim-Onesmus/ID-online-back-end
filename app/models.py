@@ -43,5 +43,5 @@ class LocatioDetails(models.Model):
 class ConfirmationDocument(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     birth_certificate = models.FileField(upload_to='media')
-    lacation_doc = models.FileField(upload_to='media')
+    location_doc = models.FileField(upload_to='media')
     parent_id = models.FileField(upload_to='media')
