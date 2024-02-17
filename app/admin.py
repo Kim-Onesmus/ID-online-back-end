@@ -4,4 +4,4 @@ from . models import Client
 
 @admin.register(Client)
 class ClientTable(admin.ModelAdmin):
-    list_display = ('first_name', 'sur_name', 'last_name', 'email', 'gender', 'phone', 'date_of_birth')
+    list_display = ('user', 'first_name', 'sur_name', 'last_name', 'email', 'username', 'gender', 'phone', 'date_of_birth', 'profile_picture')

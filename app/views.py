@@ -8,6 +8,8 @@ def Register(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        gender = request.POST['gender']
+        username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
         password1 = request.POST['password1']
@@ -16,11 +18,14 @@ def Register(request):
             if Client.objects.filter(email=email).exists():
                 messages.error(request, 'Email already exists')
                 return redirect('/')
+            elif Client.objects.filter(username=username).exists():
+                messages.error(request, 'Username already taken')
+                return redirect('/')
             else:
-                user = User.objects.create(first_name=first_name, last_name=last_name, email=email, username=email, password=password)
+                user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
                 user.save()
                 
-                client_details = Client.objects.create(user=user, first_name=first_name, last_name=last_name, email=email)
+                client_details = Client.objects.create(user=user, first_name=first_name, last_name=last_name, email=email, username=username, gender=gender)
                 client_details.save()
 
                 messages.info(request, 'Account created')
