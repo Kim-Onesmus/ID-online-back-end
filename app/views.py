@@ -76,7 +76,11 @@ def ContactUs(request):
 
 
 def AccountDetails(request):
-    return render(request, 'app/accountDetails.html')
+    user = request.user
+    client = Client.objects.filter(user=user)
+
+    context = {'client':client}
+    return render(request, 'app/accountDetails.html', context)
 
 def UpdateAccount(request):
     return render(request, 'app/updateAccount.html')

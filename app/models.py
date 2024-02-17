@@ -12,4 +12,4 @@ class Client(models.Model):
     gender = models.CharField(max_length=20, blank=True, null=True)
     phone = models.CharField(max_length=13, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    # profile_picture = models.ImageField(null=True, blank=True, upload_to='media', default='media/profile.png')
+    profile_picture = models.ImageField(null=True, blank=True, upload_to='media', default='media/profile.png')
