@@ -8,6 +8,7 @@ urlpatterns = [
     path('apply_id', views.ApplyID, name='apply_id'),
     path('location', views.LocationData, name='location'),
     path('confirmation_documents', views.ConfirmationDocuments, name='confirmation_documents'),
+    path('take_photo', views.TakePhoto, name='take_photo'),
     path('my_documents', views.MyDocuments, name='my_documents'),
     path('id_status', views.IdStatus, name='id_status'),
     path('about_us', views.AboutUs, name='about_us'),
