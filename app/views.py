@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client
+from .models import Client, Notification
 from .forms import ClientForm
 
 # Create your views here.
@@ -56,7 +56,10 @@ def Login(request):
 
 
 def Index(request):
-    return render(request, 'app/index.html')
+    notes = Notification.objects.all()
+
+    context = {'notes':notes}
+    return render(request, 'app/index.html', context)
 
 def ApplyID(request):
     return render(request, 'app/applyID.html')

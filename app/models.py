@@ -13,3 +13,9 @@ class Client(models.Model):
     phone = models.CharField(max_length=13, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     profile_picture = models.ImageField(null=True, blank=True, upload_to='media', default='media/profile.png')
+
+class Notification(models.Model):
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    sender = models.CharField(max_length=100)
+    messange = models.CharField(max_length=1000)
