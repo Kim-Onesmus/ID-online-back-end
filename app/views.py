@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .models import Client
 from .forms import ClientForm
@@ -84,21 +85,38 @@ def AccountDetails(request):
     return render(request, 'app/accountDetails.html', context)
 
 def UpdateAccount(request):
-    user = request.user
-    client = Client.objects.filter(user=user).first()
-    form = ClientForm(instance=client)
-    if request.method == 'POST':
-        form = ClientForm(request.POST, request.FILES, instance=client)
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'Account updated')
-            return redirect('update_account')
+    try:
+        user = request.user
+        client = Client.objects.filter(user=user).first()
+        form = ClientForm(instance=client)
+        if request.method == 'POST':
+            form = ClientForm(request.POST, request.FILES, instance=client)
+            if form.is_valid():
+                form.save()
+                messages.info(request, 'Account updated')
+                return redirect('update_account')
 
-    context = {'client':client, 'form':form}
-    return render(request, 'app/updateAccount.html', context)
+        context = {'client':client, 'form':form}
+        return render(request, 'app/updateAccount.html', context)
+
+    except Exception as e:
+        # Handle other exceptions if needed
+        messages.error(request, f"An error occurred: {str(e)}")
+        return redirect('attendance')
 
 def ChangePassword(request):
-    return render(request, 'app/changePassword.html')
+    user = request.user
+    client = Client.objects.filter(user=user).first()
+    password_form = PasswordChangeForm(request.user)
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if password_form.is_valid():
+            password_form.save()
+            messages.info(request, 'Password updated')
+            return redirect('login')
+    
+    context = {'password_form':password_form}
+    return render(request, 'app/changePassword.html', context)
 
 def LogOut(request):
     return render(request, 'app/logOut.html')

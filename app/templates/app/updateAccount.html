@@ -36,6 +36,9 @@
                 <!-- general form elements disabled -->
                 <div class="box box-warning">
                     <div class="box-body">
+                        {% for data in messages %}
+                        {{data}}
+                        {% endfor %}
                         <form role="form" method="post">
                             {% csrf_token %}
                             <div class="box-body">
