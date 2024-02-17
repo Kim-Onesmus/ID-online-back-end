@@ -72,13 +72,14 @@
             </div><!-- ./col -->
         </div><!-- /.row -->
         <div class="row">
+            {% for data in notes %}
             <div class="col-md-6">
                 <!-- The time line -->
                 <ul class="timeline">
                     <!-- timeline time label -->
                     <li class="time-label">
                         <span class="bg-red">
-                            10 Feb. 2014
+                            {{data.date}}
                         </span>
                     </li>
                     <!-- /.timeline-label -->
@@ -86,50 +87,20 @@
                     <li>
                         <i class="fa fa-envelope bg-blue"></i>
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                            <h3 class="timeline-header"><a href="#">From Support Team</a></h3>
+                            <span class="time"><i class="fa fa-clock-o"></i> {{data.time}}</span>
+                            <h3 class="timeline-header"><a href="#">{{data.sender}}</a></h3>
                             <div class="timeline-body">
-                                Your security is our top priority. We want to remind you
-                                to exercise caution when providing personal information online
+                                {{data.messange}}
                             </div>
                             <div class='timeline-footer'>
-                                <a class="btn btn-primary btn-xs">Read more</a>
+                                <!-- <a class="btn btn-primary btn-xs">Read more</a> -->
                                 <!-- <a class="btn btn-danger btn-xs">Delete</a> -->
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6">
-                <!-- The time line -->
-                <ul class="timeline">
-                    <!-- timeline time label -->
-                    <li class="time-label">
-                        <span class="bg-red">
-                            10 Feb. 2014
-                        </span>
-                    </li>
-                    <!-- /.timeline-label -->
-                    <!-- timeline item -->
-                    <li>
-                        <i class="fa fa-envelope bg-blue"></i>
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                            <h3 class="timeline-header"><a href="#">From Support Team</a></h3>
-                            <div class="timeline-body">
-                                Remember, your online safety is a shared
-                                responsibility. Stay informed, stay vigilant,
-                                and together, let's create a
-                                secure online environment.
-                            </div>
-                            <div class='timeline-footer'>
-                                <a class="btn btn-primary btn-xs">Read more</a>
-                                <!-- <a class="btn btn-danger btn-xs">Delete</a> -->
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            {% endfor %}
         </div>
     </section><!-- /.content -->
 </div>
