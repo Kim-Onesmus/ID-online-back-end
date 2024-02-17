@@ -62,7 +62,18 @@ def Index(request):
     return render(request, 'app/index.html', context)
 
 def ApplyID(request):
-    return render(request, 'app/applyID.html')
+    user = request.user
+    client = Client.objects.filter(user=user).first()
+    form = ClientForm(instance=client)
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES, instance=client)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Account updated')
+            return redirect('update_account')
+
+    context = {'client':client, 'form':form}
+    return render(request, 'app/applyID.html', context)
 
 
 def MyDocuments(request):
