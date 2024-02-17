@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
+status = [
+    ('approved','approved'),
+    ('pending','pending'),
+    ('cancelled','cancelled'),
+]
 # Create your models here.
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -45,3 +52,4 @@ class ConfirmationDocument(models.Model):
     birth_certificate = models.FileField(upload_to='media')
     location_doc = models.FileField(upload_to='media')
     parent_id = models.FileField(upload_to='media')
+    status = models.CharField(max_length=200, choices=status, default='pending')

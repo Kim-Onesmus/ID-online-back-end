@@ -39,7 +39,7 @@
                         {% for data in messages %}
                         {{data}}
                         {% endfor %}
-                        <form role="form" method="post">
+                        <form role="form" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="box-body">
                                 {{form.user.as_hidden}}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument
 # Register your models here.
 
 @admin.register(Client)
@@ -19,3 +19,7 @@ class applyIDTable(admin.ModelAdmin):
 @admin.register(LocatioDetails)
 class LocatioDetailsTable(admin.ModelAdmin):
     list_display = ('client', 'date', 'county', 'sub_county', 'district', 'division', 'location', 'sub_location', 'village', 'land_mark')
+
+@admin.register(ConfirmationDocument)
+class ConfirmationDocumentTable(admin.ModelAdmin):
+    list_display = ('client', 'birth_certificate', 'location_doc', 'parent_id')

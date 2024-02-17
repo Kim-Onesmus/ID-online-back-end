@@ -115,6 +115,9 @@ def ConfirmationDocuments(request):
             form.save()
             return redirect('take_photo')
 
+        else:
+            print(form.errors)
+
     context = {'form':form}
     return render(request, 'app/confirmationDocs.html', context)
 

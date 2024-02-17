@@ -43,7 +43,7 @@
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
-                        <form class="w-50" role="form" method="post">
+                        <form class="w-50" role="form" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="box-body">
                                 {{form.client.as_hidden}}
