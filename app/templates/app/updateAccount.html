@@ -42,7 +42,7 @@
                         <form role="form" method="post">
                             {% csrf_token %}
                             <div class="box-body">
-                                {{form.first_name.as_hidden}}
+                                {{form.user.as_hidden}}
                                 {{form.date_of_birth.as_hidden}}
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">First Name</label>

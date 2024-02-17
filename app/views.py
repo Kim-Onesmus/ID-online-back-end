@@ -85,24 +85,18 @@ def AccountDetails(request):
     return render(request, 'app/accountDetails.html', context)
 
 def UpdateAccount(request):
-    try:
-        user = request.user
-        client = Client.objects.filter(user=user).first()
-        form = ClientForm(instance=client)
-        if request.method == 'POST':
-            form = ClientForm(request.POST, request.FILES, instance=client)
-            if form.is_valid():
-                form.save()
-                messages.info(request, 'Account updated')
-                return redirect('update_account')
+    user = request.user
+    client = Client.objects.filter(user=user).first()
+    form = ClientForm(instance=client)
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES, instance=client)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Account updated')
+            return redirect('update_account')
 
-        context = {'client':client, 'form':form}
-        return render(request, 'app/updateAccount.html', context)
-
-    except Exception as e:
-        # Handle other exceptions if needed
-        messages.error(request, f"An error occurred: {str(e)}")
-        return redirect('attendance')
+    context = {'client':client, 'form':form}
+    return render(request, 'app/updateAccount.html', context)
 
 def ChangePassword(request):
     user = request.user
