@@ -4,7 +4,7 @@ from . models import Client, Notification, applyID
 
 @admin.register(Client)
 class ClientTable(admin.ModelAdmin):
-    list_display = ('user', 'first_name', 'sur_name', 'last_name', 'email', 'username', 'gender', 'phone', 'date_of_birth', 'profile_picture')
+    list_display = ('user', 'first_name', 'sur_name', 'last_name', 'email', 'username', 'gender', 'phone', 'profile_picture')
 
 
 @admin.register(Notification)

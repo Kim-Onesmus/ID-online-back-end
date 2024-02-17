@@ -11,7 +11,6 @@ class Client(models.Model):
     username = models.CharField(max_length=50)
     gender = models.CharField(max_length=20, blank=True, null=True)
     phone = models.CharField(max_length=13, null=True, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
     profile_picture = models.ImageField(null=True, blank=True, upload_to='media', default='media/profile.png')
 
 class Notification(models.Model):

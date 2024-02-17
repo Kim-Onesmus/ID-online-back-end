@@ -62,7 +62,12 @@ def Index(request):
     return render(request, 'app/index.html', context)
 
 def ApplyID(request):
-    # if request.method == 'POST':
+    if request.method == 'POST':
+        client = request.user
+        first_name = request.POST['first_name']
+        middle_name = request.POST['middle_name']
+        last_name = request.POST['last_name']
+        date_of_birth = request.POST['date_of_birth']
 
     return render(request, 'app/applyID.html')
 
