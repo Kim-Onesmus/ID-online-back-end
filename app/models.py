@@ -38,3 +38,10 @@ class LocatioDetails(models.Model):
     sub_location = models.CharField(max_length=100)
     village = models.CharField(max_length=100)
     land_mark = models.CharField(max_length=100)
+
+
+class ConfirmationDocument(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    birth_certificate = models.FileField(upload_to='media')
+    lacation_doc = models.FileField(upload_to='media')
+    parent_id = models.FileField(upload_to='media')

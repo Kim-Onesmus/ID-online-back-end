@@ -90,7 +90,7 @@ def ApplyID(request):
 
 def LocationData(request):
     if request.method == 'POST':
-        client = request.user
+        client = request.user.client
         county = request.POST['county']
         sub_county = request.POST['sub_county']
         district = request.POST['district']
