@@ -23,7 +23,7 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>First Name</h3>
-                        <p>Onesmus</p>
+                        <p>{{request.user.client.first_name}}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -35,8 +35,8 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>Middle Name</h3><sup style="font-size: 20px"></sup></h3>
-                        <p>Kimanzi</p>
+                        <h3>Last Name</h3><sup style="font-size: 20px"></sup></h3>
+                        <p>{{request.user.client.last_name}}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -48,8 +48,8 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>Last Name</h3>
-                        <p>Muimi</p>
+                        <h3>Username</h3>
+                        <p>{{request.user.client.username}}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -62,7 +62,7 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>Email</h3>
-                        <p>Kimonesmuske@gmail.com</p>
+                        <p>{{request.user.client.email}}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
