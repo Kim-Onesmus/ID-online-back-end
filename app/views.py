@@ -17,10 +17,10 @@ def Register(request):
                 messages.error(request, 'Email already exists')
                 return redirect('/')
             else:
-                user_details = User.objects.create(first_name=first_name, last_name=last_name, email=email, username=email, password=password)
-                user_details.save()
+                user = User.objects.create(first_name=first_name, last_name=last_name, email=email, username=email, password=password)
+                user.save()
                 
-                client_details = Client.objects.create(first_name=first_name, last_name=last_name, email=email)
+                client_details = Client.objects.create(user=user, first_name=first_name, last_name=last_name, email=email)
                 client_details.save()
 
                 messages.info(request, 'Account created')
