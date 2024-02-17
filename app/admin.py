@@ -22,4 +22,4 @@ class LocatioDetailsTable(admin.ModelAdmin):
 
 @admin.register(ConfirmationDocument)
 class ConfirmationDocumentTable(admin.ModelAdmin):
-    list_display = ('client', 'birth_certificate', 'location_doc', 'parent_id')
+    list_display = ('client', 'birth_certificate', 'location_doc', 'parent_id', 'status')

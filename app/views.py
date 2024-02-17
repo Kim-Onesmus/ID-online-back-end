@@ -112,7 +112,10 @@ def ConfirmationDocuments(request):
     if request.method == 'POST':
         form = ConfirmationDocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            confirmation_document = form.save(commit=False)
+            confirmation_document.client = request.user.client
+            confirmation_document.status = 'pending'
+            confirmation_document.save()
             return redirect('take_photo')
 
         else:
@@ -122,7 +125,7 @@ def ConfirmationDocuments(request):
     return render(request, 'app/confirmationDocs.html', context)
 
 def TakePhoto(request):
-    return redirect(request, 'app/takePhoto.html')
+    return render(request, 'app/take-photo.html')
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
