@@ -22,6 +22,7 @@ class Notification(models.Model):
 
 
 class applyID(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=200)
     middle_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification
+from . models import Client, Notification, applyID
 # Register your models here.
 
 @admin.register(Client)
@@ -10,3 +10,8 @@ class ClientTable(admin.ModelAdmin):
 @admin.register(Notification)
 class NotificationTable(admin.ModelAdmin):
     list_display = ('date', 'time', 'sender', 'messange')
+
+
+@admin.register(applyID)
+class applyIDTable(admin.ModelAdmin):
+    list_display = ('client', 'first_name', 'middle_name', 'last_name', 'date_of_birth')

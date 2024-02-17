@@ -10,3 +10,4 @@ class ClientForm(forms.ModelForm):
         model = Client
         fields = '__all__'
 
+
