@@ -113,4 +113,8 @@ def ChangePassword(request):
     return render(request, 'app/changePassword.html', context)
 
 def LogOut(request):
+    if request.method == 'POST':
+        auth.logout(request)
+        messages.info(request, 'Logged Out')
+        return redirect('login')
     return render(request, 'app/logOut.html')

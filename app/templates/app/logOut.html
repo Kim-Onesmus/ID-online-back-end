@@ -46,8 +46,8 @@
                             <!-- <p>One fine body&hellip;</p> -->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Back</button>
-                            <button type="button" class="btn btn-outline">LogOut</button>
+                            <a class="btn btn-outline pull-left" data-dismiss="modal" href="{{request.META.HTTP_REFERER}}">Back</a>
+                            <input class="btn btn-outline" type="submit" value="LogOut">
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
