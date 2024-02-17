@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID
+from .models import Client, Notification, applyID, LocatioDetails
 from .forms import ClientForm
-from datetime import date
+from datetime import datetime, date
 
 # Create your views here.
 def Register(request):
@@ -64,7 +64,7 @@ def Index(request):
 
 def ApplyID(request):
     if request.method == 'POST':
-        client = request.user
+        client = request.user.client
         first_name = request.POST['first_name']
         middle_name = request.POST['middle_name']
         last_name = request.POST['last_name']
@@ -83,12 +83,27 @@ def ApplyID(request):
         else:
             apply_details = applyID.objects.create(client=client, first_name=first_name, middle_name=middle_name, last_name=last_name, date_of_birth=date_of_birth)
             apply_details.save()
-            return redirect('user_location')
+            return redirect('location')
     else:
         return render(request, 'app/applyID.html')
     return render(request, 'app/applyID.html')
 
-def Location(request):
+def LocationData(request):
+    if request.method == 'POST':
+        client = request.user
+        county = request.POST['county']
+        sub_county = request.POST['sub_county']
+        division = request.POST['division']
+        location = request.POST['location']
+        sub_location = request.POST['sub_location']
+        village = request.POST['village']
+        land_mark = request.POST['land_mark']
+
+        lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
+        lacatio_data.save()
+        return redirect('confirmation_documents')
+    else:
+        return render(request, 'app/location.html')
     return render(request, 'app/location.html')
 
 def MyDocuments(request):

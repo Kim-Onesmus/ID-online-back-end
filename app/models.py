@@ -26,3 +26,14 @@ class applyID(models.Model):
     middle_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     date_of_birth = models.DateField()
+
+class LocatioDetails(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    county = models.CharField(max_length=100)
+    sub_county = models.CharField(max_length=100)
+    division = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    sub_location = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    land_mark = models.CharField(max_length=100)
