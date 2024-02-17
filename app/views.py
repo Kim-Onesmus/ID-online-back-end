@@ -4,6 +4,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .models import Client, Notification, applyID
 from .forms import ClientForm
+from datetime import date
 
 # Create your views here.
 def Register(request):
@@ -69,10 +70,22 @@ def ApplyID(request):
         last_name = request.POST['last_name']
         date_of_birth = request.POST['date_of_birth']
 
+        birth_date = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
+        today = date.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+
         if applyID.objects.filter(client=client).exists():
             messages.error(request, 'You already applied for ID, check your ID status')
             return redirect('apply_id')
-
+        elif age < 18:
+            messages.info(request, 'You cannot apply ID, you are under age')
+            return redirect('apply_id')
+        else:
+            apply_details = applyID.objects.create(client=client, first_name=first_name, middle_name=middle_name, last_name=last_name, date_of_birth=date_of_birth)
+            apply_details.save()
+            return redirect('user_location')
+    else:
+        return render(request, 'app/applyID.html')
     return render(request, 'app/applyID.html')
 
 
