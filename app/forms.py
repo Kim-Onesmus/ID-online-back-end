@@ -10,9 +10,3 @@ class ClientForm(forms.ModelForm):
         model = Client
         fields = '__all__'
 
-
-class ApplyForm(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = '__all__'
-        exclude = ['email', 'username', 'phone', 'profile_picture']

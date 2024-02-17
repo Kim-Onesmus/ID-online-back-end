@@ -19,3 +19,10 @@ class Notification(models.Model):
     time = models.TimeField(auto_now_add=True)
     sender = models.CharField(max_length=100)
     messange = models.CharField(max_length=1000)
+
+
+class applyID(models.Model):
+    first_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    date_of_birth = models.DateField()
