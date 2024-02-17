@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification
+from .models import Client, Notification, applyID
 from .forms import ClientForm
 
 # Create your views here.
@@ -68,6 +68,10 @@ def ApplyID(request):
         middle_name = request.POST['middle_name']
         last_name = request.POST['last_name']
         date_of_birth = request.POST['date_of_birth']
+
+        if applyID.objects.filter(client=client).exists():
+            messages.error(request, 'You already applied for ID, check your ID status')
+            return redirect('apply_id')
 
     return render(request, 'app/applyID.html')
 
