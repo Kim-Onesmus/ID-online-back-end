@@ -1,9 +1,25 @@
-{% extends 'main.html' %}
+<!-- {% extends 'main.html' %} -->
 {% load static %}
 {% block content %}
 
-<script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" crossorigin="anonymous"></script>
+<style>
+    #cameraContainer {
+        position: relative;
+        display: none;
+    }
 
+    #video {
+        width: 240px;
+        height: 280px;
+    }
+
+    #capture {
+        position: absolute;
+        bottom: 10px;
+        left: 20%;
+        transform: translateX(-50%);
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -47,14 +63,15 @@
                         <form class="w-50" role="form">
                             <div class="box-body">
                                 <div class="form-group col-md-12">
-                                    <video id="video" width="300px" height="200px" autoplay></video>
-                                    <button id="captureButton" class="btn btn-primary">Capture and Save</button>
-                                    <canvas id="canvas" width="300px" height="200px" style="display: none;"></canvas>
+                                    <div id="cameraContainer">
+                                        <video id="video" autoplay></video>
+                                        <button id="capture">Capture Photo</button>
+                                    </div>
                                 </div>
                             </div>
 
                             <div style="text-align: center;" class="box-footer">
-                                <!-- <button id="captureButton" class="btn btn-primary">Capture and Save</button> -->
+                                <button id="startCamera" class="btn btn-primary">Start Camera</button>
                             </div>
                         </form>
 
@@ -64,56 +81,69 @@
         </div>
     </section>
 </div>
+<div id="cameraContainer">
+    <video id="video" autoplay></video>
+    <button id="capture">Capture Photo</button>
+</div>
+<button id="startCamera">Start Camera</button>
 <script>
-    // Existing code...
+    document.addEventListener('DOMContentLoaded', function () {
+        const startCameraButton = document.getElementById('startCamera');
+        const cameraContainer = document.getElementById('cameraContainer');
+        const video = document.getElementById('video');
+        const captureButton = document.getElementById('capture');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        let stream;
 
-    let video = document.getElementById('video');
-    let canvas = document.getElementById('canvas');
-    let captureButton = document.getElementById('captureButton');
-
-    // Check if the browser supports the getUserMedia API
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Request access to the camera
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                // The user granted access to the camera
-                // You can now use the stream to display the camera feed, capture images, etc.
-                video.srcObject = stream;
-
-                // Set up canvas for image capture
-                const context = canvas.getContext('2d');
-
-                // Capture and save image
-                captureButton.onclick = function () {
-                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                    // Convert canvas image data to base64
-                    const imageData = canvas.toDataURL('image/jpeg');
-
-                    // Send base64 image data to Django backend
-                    fetch('/save_photo/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}',
-                        },
-                        body: JSON.stringify({ image_data: imageData }),
+        startCameraButton.addEventListener('click', () => {
+            // Check for camera support
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(videoStream => {
+                        stream = videoStream;
+                        video.srcObject = stream;
+                        cameraContainer.style.display = 'block';
                     })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            // Optionally, redirect to another page or handle the response
-                        })
-                        .catch(error => console.error(error));
-                };
+                    .catch(error => {
+                        console.error('Error accessing camera:', error);
+                    });
+            } else {
+                console.error('getUserMedia not supported on your browser');
+            }
+        });
+
+        captureButton.addEventListener('click', () => {
+            // Draw the current frame of the video onto the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Extract the image data from the canvas
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            // Stop the video stream
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                cameraContainer.style.display = 'none';
+            }
+
+            // Send the image data to the server using an AJAX request
+            fetch('/capture_photo/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf_token,
+                },
+                body: JSON.stringify({ photo: imageData }),
             })
-            .catch(function (error) {
-                // The user denied access to the camera or an error occurred
-                console.error('Error accessing the camera:', error);
-            });
-    } else {
-        // The browser does not support the getUserMedia API
-        console.error('getUserMedia is not supported in this browser');
-    }
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Handle the server response as needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
 </script>
 {% endblock content %}
