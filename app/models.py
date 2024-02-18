@@ -53,3 +53,10 @@ class ConfirmationDocument(models.Model):
     location_doc = models.FileField(upload_to='media')
     parent_id = models.FileField(upload_to='media')
     status = models.CharField(max_length=200, choices=status, default='pending')
+
+class Photo(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='media')
+    status = models.CharField(max_length=200, choices=status, default='pending')
+
+

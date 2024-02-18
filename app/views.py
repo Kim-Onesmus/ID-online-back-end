@@ -3,8 +3,10 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .models import Client, Notification, applyID, LocatioDetails
-from .forms import ClientForm, ConfirmationDocumentForm
+from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from datetime import datetime, date
+import cv2
+import numpy as np
 
 # Create your views here.
 def Register(request):
@@ -125,7 +127,23 @@ def ConfirmationDocuments(request):
     return render(request, 'app/confirmationDocs.html', context)
 
 def TakePhoto(request):
-    return render(request, 'app/take-photo.html')
+    if request.method == 'POST':
+        cap = cv2.VideoCapture(0)
+        ret, frame = cap.read()
+        cap.release()
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        form = PhotoForm({'image': frame_rgb})
+        if form.is_valid():
+            form.save()
+            return redirect('success')  # Redirect to a success page or another view
+
+    else:
+        form = PhotoForm()
+
+    context = {'form':form}
+    return render(request, 'app/take-photo.html', context)
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
