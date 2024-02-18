@@ -148,7 +148,7 @@ def savePhoto(request):
         if form.is_valid():
             photo = form.save(commit=False)
             photo.client = request.user.client
-            photo.status = 'pending'  # Set a default status if needed
+            photo.status = 'pending'
             photo.save()
 
             return JsonResponse({'status': 'success', 'photo_id': photo.id})

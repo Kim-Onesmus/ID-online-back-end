@@ -65,41 +65,55 @@
     </section>
 </div>
 <script>
+    // Existing code...
+
     let video = document.getElementById('video');
     let canvas = document.getElementById('canvas');
     let captureButton = document.getElementById('captureButton');
 
-    async function onOpenCvReady() {
-        // Initialize camera
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
+    // Check if the browser supports the getUserMedia API
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Request access to the camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                // The user granted access to the camera
+                // You can now use the stream to display the camera feed, capture images, etc.
+                video.srcObject = stream;
 
-        // Set up canvas for image capture
-        const context = canvas.getContext('2d');
+                // Set up canvas for image capture
+                const context = canvas.getContext('2d');
 
-        // Capture and save image
-        captureButton.onclick = function () {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                // Capture and save image
+                captureButton.onclick = function () {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Convert canvas image data to base64
-            const imageData = canvas.toDataURL('image/jpeg');
+                    // Convert canvas image data to base64
+                    const imageData = canvas.toDataURL('image/jpeg');
 
-            // Send base64 image data to Django backend
-            fetch('/save_photo/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}',
-                },
-                body: JSON.stringify({ image_data: imageData }),
+                    // Send base64 image data to Django backend
+                    fetch('/save_photo/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}',
+                        },
+                        body: JSON.stringify({ image_data: imageData }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            // Optionally, redirect to another page or handle the response
+                        })
+                        .catch(error => console.error(error));
+                };
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Optionally, redirect to another page or handle the response
-                })
-                .catch(error => console.error(error));
-        };
+            .catch(function (error) {
+                // The user denied access to the camera or an error occurred
+                console.error('Error accessing the camera:', error);
+            });
+    } else {
+        // The browser does not support the getUserMedia API
+        console.error('getUserMedia is not supported in this browser');
     }
 </script>
 {% endblock content %}

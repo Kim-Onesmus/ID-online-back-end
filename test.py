@@ -43,3 +43,21 @@ while True:
         print("Program ended.")
         cv2.destroyAllWindows()
         break
+
+
+from django.core.files.base import ContentFile
+
+@csrf_exempt
+def savePhoto(request):
+    if request.method == 'POST':
+        image_data = request.POST.get('image_data', '')
+        image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
+
+        decoded_image = base64.b64decode(image_data)
+        image_file = ContentFile(decoded_image)
+
+        photo = Photo(client=request.user.client, image=image_file, status='pending')
+        photo.save()
+
+        return JsonResponse({'status': 'success', 'photo_id': photo.id})
+    return JsonResponse({'status': 'error'})
