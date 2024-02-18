@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails
+from .models import Client, Notification, applyID, LocatioDetails, Photo
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
 import cv2
 import numpy as np
@@ -127,23 +130,35 @@ def ConfirmationDocuments(request):
     return render(request, 'app/confirmationDocs.html', context)
 
 def TakePhoto(request):
+    return render(request, 'app/take-photo.html')
+
+
+@csrf_exempt
+def save_photo(request):
     if request.method == 'POST':
-        cap = cv2.VideoCapture(0)
-        ret, frame = cap.read()
-        cap.release()
+        image_data = request.POST.get('image_data', '')
+        image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
 
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # Decode base64 image data
+        decoded_image = base64.b64decode(image_data)
 
-        form = PhotoForm({'image': frame_rgb})
+        # Create an Image instance from decoded data
+        image = Image.open(BytesIO(decoded_image))
+
+        # Create a form instance with the image
+        form = PhotoForm({'image': image})
+
+        # Associate the logged-in client and set a default status
         if form.is_valid():
-            form.save()
-            return redirect('success')  # Redirect to a success page or another view
+            photo = form.save(commit=False)
+            photo.client = request.user.client
+            photo.status = 'pending'  # Set a default status if needed
+            photo.save()
 
-    else:
-        form = PhotoForm()
+            return JsonResponse({'status': 'success', 'photo_id': photo.id})
 
-    context = {'form':form}
-    return render(request, 'app/take-photo.html', context)
+    return JsonResponse({'status': 'error'})
+
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')

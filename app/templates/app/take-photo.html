@@ -2,7 +2,8 @@
 {% load static %}
 {% block content %}
 
-<!-- Right side column. Contains the navbar and content of the page -->
+<script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" crossorigin="anonymous"></script>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -35,8 +36,8 @@
                 <!-- general form elements disabled -->
                 <div class="box box-primary">
                     <div class="box-header text-center danger">
-                        <h3 style="color: red;" class="box-title text-bold">Step 3 of 4 <br>
-                            <span style="color: dodgerblue;">Proove Documents</span>
+                        <h3 style="color: red;" class="box-title text-bold">Step 4 of 4 <br>
+                            <span style="color: dodgerblue;">Take Photo</span>
                         </h3>
                         {% for data in messages %}
                         {{data}}
@@ -47,13 +48,14 @@
                             {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group col-md-12">
-                                    <label for="exampleInputPassword1">Take Photo</label>
-                                    
+                                    <video id="video" width="300px" height="200px" autoplay></video>
+                                    <!-- <button id="captureButton">Capture and Save</button> -->
+                                    <canvas id="canvas" width="300px" height="200px" style="display: none;"></canvas>
                                 </div>
                             </div>
 
                             <div style="text-align: center;" class="box-footer">
-                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                <button id="captureButton" class="btn btn-primary">Capture and Save</button>
                             </div>
                         </form>
 
@@ -63,5 +65,42 @@
         </div>
     </section>
 </div>
+<script>
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let captureButton = document.getElementById('captureButton');
 
+    async function onOpenCvReady() {
+        // Initialize camera
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+
+        // Set up canvas for image capture
+        const context = canvas.getContext('2d');
+
+        // Capture and save image
+        captureButton.onclick = function () {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas image data to base64
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            // Send base64 image data to Django backend
+            fetch('/save_photo/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({ image_data: imageData }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Optionally, redirect to another page or handle the response
+                })
+                .catch(error => console.error(error));
+        };
+    }
+</script>
 {% endblock content %}
