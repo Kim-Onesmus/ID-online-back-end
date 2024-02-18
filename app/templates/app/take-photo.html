@@ -44,18 +44,17 @@
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
-                        <form class="w-50" role="form" method="post">
-                            {% csrf_token %}
+                        <form class="w-50" role="form">
                             <div class="box-body">
                                 <div class="form-group col-md-12">
                                     <video id="video" width="300px" height="200px" autoplay></video>
-                                    <!-- <button id="captureButton">Capture and Save</button> -->
+                                    <button id="captureButton" class="btn btn-primary">Capture and Save</button>
                                     <canvas id="canvas" width="300px" height="200px" style="display: none;"></canvas>
                                 </div>
                             </div>
 
                             <div style="text-align: center;" class="box-footer">
-                                <button id="captureButton" class="btn btn-primary">Capture and Save</button>
+                                <!-- <button id="captureButton" class="btn btn-primary">Capture and Save</button> -->
                             </div>
                         </form>
 

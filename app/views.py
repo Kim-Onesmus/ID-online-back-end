@@ -134,21 +134,17 @@ def TakePhoto(request):
 
 
 @csrf_exempt
-def save_photo(request):
+def savePhoto(request):
     if request.method == 'POST':
         image_data = request.POST.get('image_data', '')
         image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
 
-        # Decode base64 image data
         decoded_image = base64.b64decode(image_data)
 
-        # Create an Image instance from decoded data
         image = Image.open(BytesIO(decoded_image))
 
-        # Create a form instance with the image
         form = PhotoForm({'image': image})
 
-        # Associate the logged-in client and set a default status
         if form.is_valid():
             photo = form.save(commit=False)
             photo.client = request.user.client
@@ -158,7 +154,6 @@ def save_photo(request):
             return JsonResponse({'status': 'success', 'photo_id': photo.id})
 
     return JsonResponse({'status': 'error'})
-
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
