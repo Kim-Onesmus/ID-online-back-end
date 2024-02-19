@@ -72,94 +72,91 @@ def Index(request):
 
 def ApplyID(request):
     client = request.user.client
-    apply_info = applyID.objects.filter(client=client).first
-    location_info = LocatioDetails.objects.filter(client=client).first
-    doc_info = ConfirmationDocument.objects.filter(client=client).first
-    photo_info = Photo.objects.filter(client=client).first
+    apply_info = applyID.objects.filter(client=client).first()
+    location_info = LocatioDetails.objects.filter(client=client).first()
+    doc_info = ConfirmationDocument.objects.filter(client=client).first()
+    photo_info = Photo.objects.filter(client=client).first()
 
-    if apply_info:
-        return redirect('location')
-    else:
-        if request.method == 'POST':
-            client = request.user.client
-            first_name = request.POST['first_name']
-            middle_name = request.POST['middle_name']
-            last_name = request.POST['last_name']
-            date_of_birth = request.POST['date_of_birth']
+    # if apply_info:
+    #     return redirect('location')
+    if request.method == 'POST':
+        client = request.user.client
+        first_name = request.POST['first_name']
+        middle_name = request.POST['middle_name']
+        last_name = request.POST['last_name']
+        date_of_birth = request.POST['date_of_birth']
 
-            birth_date = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
-            today = date.today()
-            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+        birth_date = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
+        today = date.today()
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
 
-            if applyID.objects.filter(client=client).exists():
-                messages.error(request, 'You already applied for ID, check your ID status')
-                return redirect('apply_id')
-            elif age < 18:
-                messages.info(request, 'You cannot apply ID, you are under age')
-                return redirect('apply_id')
-            else:
-                apply_details = applyID.objects.create(client=client, first_name=first_name, middle_name=middle_name, last_name=last_name, date_of_birth=date_of_birth)
-                apply_details.save()
-                return redirect('location')
+        if applyID.objects.filter(client=client).exists():
+            messages.error(request, 'You already applied for ID, check your ID status')
+            return redirect('apply_id')
+        elif age < 18:
+            messages.info(request, 'You cannot apply ID, you are under age')
+            return redirect('apply_id')
         else:
-            return render(request, 'app/applyID.html')
+            apply_details = applyID.objects.create(client=client, first_name=first_name, middle_name=middle_name, last_name=last_name, date_of_birth=date_of_birth)
+            apply_details.save()
+            return redirect('location')
+    else:
+        return render(request, 'app/applyID.html')
 
     context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info}
     return render(request, 'app/applyID.html', context)
 
 def LocationData(request):
     client = request.user.client
-    location_info = LocatioDetails.objects.filter(client=client).first
-    if location_info:
+    location_info = LocatioDetails.objects.filter(client=client).first()
+    # if location_info:
+    #     return redirect('confirmation_documents')
+    if request.method == 'POST':
+        client = request.user.client
+        county = request.POST['county']
+        sub_county = request.POST['sub_county']
+        district = request.POST['district']
+        division = request.POST['division']
+        location = request.POST['location']
+        sub_location = request.POST['sub_location']
+        village = request.POST['village']
+        land_mark = request.POST['land_mark']
+
+        lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, district=district, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
+        lacatio_data.save()
         return redirect('confirmation_documents')
     else:
-        if request.method == 'POST':
-            client = request.user.client
-            county = request.POST['county']
-            sub_county = request.POST['sub_county']
-            district = request.POST['district']
-            division = request.POST['division']
-            location = request.POST['location']
-            sub_location = request.POST['sub_location']
-            village = request.POST['village']
-            land_mark = request.POST['land_mark']
-
-            lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, district=district, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
-            lacatio_data.save()
-            return redirect('confirmation_documents')
-        else:
-            return render(request, 'app/location.html')
+        return render(request, 'app/location.html')
     return render(request, 'app/location.html')
 
 def ConfirmationDocuments(request):
     client = request.user.client
-    doc_info = ConfirmationDocument.objects.filter(client=client).first
-    if doc_info:
-        return redirect('take_photo')
-    else:
-        form = ConfirmationDocumentForm()
-        if request.method == 'POST':
-            form = ConfirmationDocumentForm(request.POST, request.FILES)
-            if form.is_valid():
-                confirmation_document = form.save(commit=False)
-                confirmation_document.client = request.user.client
-                confirmation_document.status = 'pending'
-                confirmation_document.save()
-                return redirect('take_photo')
+    doc_info = ConfirmationDocument.objects.filter(client=client).first()
+    # if doc_info:
+    #     return redirect('take_photo')
 
-            else:
-                print(form.errors)
+    form = ConfirmationDocumentForm()
+    if request.method == 'POST':
+        form = ConfirmationDocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            confirmation_document = form.save(commit=False)
+            confirmation_document.client = request.user.client
+            confirmation_document.status = 'pending'
+            confirmation_document.save()
+            return redirect('take_photo')
 
-        context = {'form':form}
+        else:
+            print(form.errors)
+
+    context = {'form':form}
     return render(request, 'app/confirmationDocs.html', context)
 
 def TakePhoto(request):
     client = request.user.client
-    photo_info = Photo.objects.filter(client=client).first
-    if photo_info:
-        return redirect('apply_id')
-    else:
-        return render(request, 'app/take-photo.html')
+    photo_info = Photo.objects.filter(client=client).first()
+    # if photo_info:
+    #     return redirect('apply_id')
+
     return render(request, 'app/take-photo.html')
 
 
