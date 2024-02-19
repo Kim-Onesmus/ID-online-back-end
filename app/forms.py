@@ -15,7 +15,7 @@ class ConfirmationDocumentForm(forms.ModelForm):
     class Meta:
         model = ConfirmationDocument
         fields = '__all__'
-        exclude = ['client', 'status']
+        exclude = ['client', 'status', 'reason']
 
 
 class PhotoForm(forms.ModelForm):

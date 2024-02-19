@@ -49,10 +49,12 @@ class LocatioDetails(models.Model):
 
 class ConfirmationDocument(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
     birth_certificate = models.FileField(upload_to='media')
     location_doc = models.FileField(upload_to='media')
     parent_id = models.FileField(upload_to='media')
     status = models.CharField(max_length=200, choices=status, default='pending')
+    reason = models.CharField(max_length=200, blank=True, null=True)
 
 class Photo(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)

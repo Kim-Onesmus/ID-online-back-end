@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -171,7 +171,11 @@ def savePhoto(request):
 
 
 def MyDocuments(request):
-    return render(request, 'app/myDocuments.html')
+    client = request.user.client
+    my_docs = ConfirmationDocument.objects.filter(client=client)
+
+    context = {'my_docs':my_docs}
+    return render(request, 'app/myDocuments.html', context)
 
 def IdStatus(request):
     return render(request, 'app/IdStatus.html')
