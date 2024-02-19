@@ -1,25 +1,30 @@
-<!-- {% extends 'main.html' %} -->
+{% extends 'main.html' %}
 {% load static %}
 {% block content %}
+    <style>
+        /* body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        } */
 
-<style>
-    #cameraContainer {
-        position: relative;
-        display: none;
-    }
+        #video-container {
+            position: relative;
+        }
 
-    #video {
-        width: 240px;
-        height: 280px;
-    }
+        #video {
+            width: 300px;
+            height: 200px;
+        }
 
-    #capture {
-        position: absolute;
-        bottom: 10px;
-        left: 20%;
-        transform: translateX(-50%);
-    }
-</style>
+        #captureButton {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+<script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" crossorigin="anonymous"></script>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -60,90 +65,93 @@
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
-                        <form class="w-50" role="form">
-                            <div class="box-body">
-                                <div class="form-group col-md-12">
-                                    <div id="cameraContainer">
-                                        <video id="video" autoplay></video>
-                                        <button id="capture">Capture Photo</button>
-                                    </div>
+                        <!-- <form class="w-50"> -->
+                        <div class="box-body">
+                            <div class="form-group col-md-12">
+                                <canvas id="canvas" width="300px" height="200px" style="display: none;"></canvas>
+                                <div id="video-container">
+                                    <video id="video" width="300px" height="200px" autoplay></video>
+                                    <!-- <button id="capture">Capture Photo</button> -->
+                                    <button id="captureButton" class="btn btn-primary" style="display: none;">Capture
+                                        and Save</button>
                                 </div>
-                            </div>
 
-                            <div style="text-align: center;" class="box-footer">
-                                <button id="startCamera" class="btn btn-primary">Start Camera</button>
                             </div>
-                        </form>
-
+                        </div>
                     </div>
+
+                    <div style="text-align: center;" class="box-footer">
+                        <!-- <button id="startCamera" class="btn btn-primary">Start Camera</button> -->
+                        <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
 </div>
-<div id="cameraContainer">
-    <video id="video" autoplay></video>
-    <button id="capture">Capture Photo</button>
+</section>
 </div>
-<button id="startCamera">Start Camera</button>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const startCameraButton = document.getElementById('startCamera');
-        const cameraContainer = document.getElementById('cameraContainer');
-        const video = document.getElementById('video');
-        const captureButton = document.getElementById('capture');
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        let stream;
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let openCameraButton = document.getElementById('openCameraButton');
+    let captureButton = document.getElementById('captureButton');
+    let stream;
 
-        startCameraButton.addEventListener('click', () => {
-            // Check for camera support
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(videoStream => {
-                        stream = videoStream;
-                        video.srcObject = stream;
-                        cameraContainer.style.display = 'block';
-                    })
-                    .catch(error => {
-                        console.error('Error accessing camera:', error);
-                    });
-            } else {
-                console.error('getUserMedia not supported on your browser');
-            }
-        });
+    openCameraButton.onclick = function () {
+        // Check if the browser supports the getUserMedia API
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Request access to the camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (streamObj) {
+                    // The user granted access to the camera
+                    // You can now use the stream to display the camera feed, capture images, etc.
+                    stream = streamObj;
+                    video.srcObject = streamObj;
+                    captureButton.style.display = 'block';
+                    openCameraButton.style.display = 'none';
 
-        captureButton.addEventListener('click', () => {
-            // Draw the current frame of the video onto the canvas
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    // Set up canvas for image capture
+                    const context = canvas.getContext('2d');
 
-            // Extract the image data from the canvas
-            const imageData = canvas.toDataURL('image/jpeg');
+                    // Capture and save image
+                    captureButton.onclick = function () {
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Stop the video stream
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                cameraContainer.style.display = 'none';
-            }
+                        // Convert canvas image data to base64
+                        const imageData = canvas.toDataURL('image/jpeg');
 
-            // Send the image data to the server using an AJAX request
-            fetch('/capture_photo/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrf_token,
-                },
-                body: JSON.stringify({ photo: imageData }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // Handle the server response as needed
+                        // Send base64 image data to Django backend
+                        fetch('/save_photo/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}',
+                            },
+                            body: JSON.stringify({ image_data: imageData }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                                // Optionally, redirect to another page or handle the response
+                            })
+                            .catch(error => console.error(error));
+
+                        // Stop the camera stream and hide video and canvas
+                        stream.getTracks().forEach(track => track.stop());
+                        video.style.display = 'none';
+                        canvas.style.display = 'none';
+                        openCameraButton.style.display = 'block';
+                    };
                 })
-                .catch(error => {
-                    console.error('Error:', error);
+                .catch(function (error) {
+                    // The user denied access to the camera or an error occurred
+                    console.error('Error accessing the camera:', error);
                 });
-        });
-    });
+        } else {
+            // The browser does not support the getUserMedia API
+            console.error('getUserMedia is not supported in this browser');
+        }
+    };
 </script>
 {% endblock content %}
