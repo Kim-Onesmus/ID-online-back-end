@@ -43,7 +43,9 @@
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
                         {% if apply_info and location_info and doc_info and photo_info %}
-                        <p>Your </p>
+                        <p>Your ID applican has been received and is being processed, click <a
+                                href="{% url 'id_status' %}">here</a> to view ID status</p>
+                        {% else %}
                         <form class="w-50" role="form" method="post">
                             {% csrf_token %}
                             <div class="box-body">
@@ -72,7 +74,7 @@
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
                         </form>
-
+                        {% endif %}
                     </div>
                 </div>
             </div>
