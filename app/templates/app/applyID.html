@@ -31,22 +31,48 @@
                     </form>
                 </div><!-- /.box -->
             </div>
+            {% if apply_info and location_info and doc_info and photo_info %}
+            <div class="box-body d-flex flex-column align-items-center">
+                <form class="w-50">
+                    <div class="box-body">
+                    </div>
+
+                    <div style="text-align: center;" class="box-footer">
+                        <p>Your ID applican has been received and is being processed, click <a
+                                href="{% url 'id_status' %}">here</a> to view
+                            ID status</p>
+                        <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
+                    </div>
+                </form>
+            </div>
+            {% if photo_info.status == 'approved' and my_docs.status == 'approved' %}
+            <div class="box-body d-flex flex-column align-items-center">
+                <form class="w-50">
+                    <div class="box-body">
+                    </div>
+
+                    <div style="text-align: center;" class="box-footer">
+                        <p>Your ID applican has been processed and is ready, click <a
+                                href="{% url 'id_status' %}">here</a>
+                            to download</p>
+                        <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            {% endif %}
+            {% else %}
             <div class="col-md-8">
                 <!-- general form elements disabled -->
                 <div class="box box-primary">
                     <div class="box-header text-center danger">
                         <h3 style="color: red;" class="box-title text-bold">Step 1 of 4</h3><br>
                         <span style="color: dodgerblue;">Confirm user info</span>
-                        {{apply_info.first.first_name}}
                         {% for data in messages %}
                         {{data}}
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
-                        {% if apply_info and location_info and doc_info and photo_info %}
-                        <p>Your ID applican has been received and is being processed, click <a
-                                href="{% url 'id_status' %}">here</a> to view ID status</p>
-                        {% else %}
                         <form class="w-50" role="form" method="post">
                             {% csrf_token %}
                             <div class="box-body">
@@ -75,10 +101,10 @@
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
                         </form>
-                        {% endif %}
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
 </div>

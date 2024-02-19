@@ -59,7 +59,9 @@ class ConfirmationDocument(models.Model):
 class Photo(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media')
+    date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=200, choices=status, default='pending')
+    reason = models.CharField(max_length=200, blank=True, null=True)
 
 
 class Contact(models.Model):

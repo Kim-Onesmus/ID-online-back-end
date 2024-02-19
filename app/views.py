@@ -65,20 +65,23 @@ def Login(request):
 
 
 def Index(request):
+    client = request.user.client
+    apply_info = applyID.objects.filter(client=client)
     notes = Notification.objects.all()
 
-    context = {'notes':notes}
+    context = {'notes':notes, 'apply_info':apply_info}
     return render(request, 'app/index.html', context)
 
-def ApplyID(request):
+def Apply_ID(request):
     client = request.user.client
     apply_info = applyID.objects.filter(client=client).first()
     location_info = LocatioDetails.objects.filter(client=client).first()
     doc_info = ConfirmationDocument.objects.filter(client=client).first()
     photo_info = Photo.objects.filter(client=client).first()
+    my_docs = ConfirmationDocument.objects.filter(client=client).first()
 
-    # if apply_info:
-    #     return redirect('location')
+    if apply_info:
+        return redirect('location')
     if request.method == 'POST':
         client = request.user.client
         first_name = request.POST['first_name']
@@ -96,21 +99,22 @@ def ApplyID(request):
         elif age < 18:
             messages.info(request, 'You cannot apply ID, you are under age')
             return redirect('apply_id')
+        elif middle_name == 'None':
+            messages.error(request, 'Update your account to continue')
+            return redirect('update_account')
         else:
             apply_details = applyID.objects.create(client=client, first_name=first_name, middle_name=middle_name, last_name=last_name, date_of_birth=date_of_birth)
             apply_details.save()
             return redirect('location')
-    else:
-        return render(request, 'app/applyID.html')
 
-    context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info}
+    context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
     return render(request, 'app/applyID.html', context)
 
 def LocationData(request):
     client = request.user.client
     location_info = LocatioDetails.objects.filter(client=client).first()
-    # if location_info:
-    #     return redirect('confirmation_documents')
+    if location_info:
+        return redirect('confirmation_documents')
     if request.method == 'POST':
         client = request.user.client
         county = request.POST['county']
@@ -132,8 +136,8 @@ def LocationData(request):
 def ConfirmationDocuments(request):
     client = request.user.client
     doc_info = ConfirmationDocument.objects.filter(client=client).first()
-    # if doc_info:
-    #     return redirect('take_photo')
+    if doc_info:
+        return redirect('take_photo')
 
     form = ConfirmationDocumentForm()
     if request.method == 'POST':
@@ -154,8 +158,8 @@ def ConfirmationDocuments(request):
 def TakePhoto(request):
     client = request.user.client
     photo_info = Photo.objects.filter(client=client).first()
-    # if photo_info:
-    #     return redirect('apply_id')
+    if photo_info:
+        return redirect('id_status')
 
     return render(request, 'app/take-photo.html')
 
@@ -197,15 +201,17 @@ def savePhoto(request):
 def MyDocuments(request):
     client = request.user.client
     my_docs = ConfirmationDocument.objects.filter(client=client)
+    photo_info = Photo.objects.filter(client=client).first()
 
-    context = {'my_docs':my_docs}
+    context = {'my_docs':my_docs, 'photo_info':photo_info}
     return render(request, 'app/myDocuments.html', context)
 
 def IdStatus(request):
     client = request.user.client
     my_docs = ConfirmationDocument.objects.filter(client=client)
+    photo_info = Photo.objects.filter(client=client).first()
 
-    context = {'my_docs':my_docs}
+    context = {'my_docs':my_docs, 'photo_info':photo_info}
     return render(request, 'app/IdStatus.html', context)
 
 

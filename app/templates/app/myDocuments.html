@@ -21,6 +21,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
+                        {% if my_docs %}
                         <table class="table table-hover">
                             <tr>
                                 <th>User</th>
@@ -30,7 +31,6 @@
                                 <th>Reason</th>
                                 <th>Preview</th>
                             </tr>
-
                             <tr>
                                 <td><img style="width: 30px; height: 30px;border-radius: 50%;"
                                         src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
@@ -77,12 +77,53 @@
                                 <td><a href="{{my_docs.first.parent_id.url}}" download>Preview</a></td>
                             </tr>
                         </table>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+                        {% else %}
+                        <p style="text-align: center;color: red;">You havent uploaded any documents yet</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-</div>
-</section><!-- /.content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive no-padding">
+                        {% if photo_info %}
+                        <table class="table table-hover">
+                            <tr>
+                                <th>User</th>
+                                <th>Photo</th>
+                                <th>Date Uploaded</th>
+                                <th>Status</th>
+                                <th>Reason</th>
+                                <th>Preview</th>
+                            </tr>
+                            <tr>
+                                <td><img style="width: 30px; height: 30px;border-radius: 50%;"
+                                        src="{{photo_info.client.profile_picture.url}}" alt=""></td>
+                                <td><img style="width: 30px; height: 30px;" src="{{photo_info.image.url}}" alt="">
+                                </td>
+                                <td>{{photo_info.date}}</td>
+                                {% if photo_info.status == 'approved' %}
+                                <td><span class="label label-success">Approved</span></td>
+                                {% elif photo_info.status == 'pending' %}
+                                <td><span class="label label-warning">Pending</span></td>
+                                {% else %}
+                                <td><span class="label label-danger">Cancelled</span></td>
+                                {% endif %}
+                                <td>{{photo_info.reason}}</td>
+                                <td><a href="{{photo_info.image.url}}" download>Preview</a></td>
+                            </tr>
+                        </table>
+                        {% else %}
+                        <p style="text-align: center;color: red;">You havent uploaded any photo</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div><!-- /.content-wrapper -->
 {% endblock content %}
