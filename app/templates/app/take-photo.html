@@ -1,29 +1,29 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block content %}
-    <style>
-        /* body {
+<style>
+    /* body {
             display: flex;
             flex-direction: column;
             align-items: center;
         } */
 
-        #video-container {
-            position: relative;
-        }
+    #video-container {
+        position: relative;
+    }
 
-        #video {
-            width: 300px;
-            height: 200px;
-        }
+    #video {
+        width: 300px;
+        height: 200px;
+    }
 
-        #captureButton {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-    </style>
+    #captureButton {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+</style>
 <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" crossorigin="anonymous"></script>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -90,7 +90,7 @@
         </div>
 </div>
 </section>
-</div>
+<!-- Add this script in your HTML template -->
 <script>
     let video = document.getElementById('video');
     let canvas = document.getElementById('canvas');
@@ -99,57 +99,47 @@
     let stream;
 
     openCameraButton.onclick = function () {
-        // Check if the browser supports the getUserMedia API
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // Request access to the camera
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(function (streamObj) {
-                    // The user granted access to the camera
-                    // You can now use the stream to display the camera feed, capture images, etc.
                     stream = streamObj;
                     video.srcObject = streamObj;
                     captureButton.style.display = 'block';
                     openCameraButton.style.display = 'none';
 
-                    // Set up canvas for image capture
                     const context = canvas.getContext('2d');
 
-                    // Capture and save image
                     captureButton.onclick = function () {
                         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                        // Convert canvas image data to base64
-                        const imageData = canvas.toDataURL('image/jpeg');
+                        canvas.toBlob(function (blob) {
+                            const formData = new FormData();
+                            formData.append('image', blob, 'image.jpg');
 
-                        // Send base64 image data to Django backend
-                        fetch('/save_photo/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}',
-                            },
-                            body: JSON.stringify({ image_data: imageData }),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                // Optionally, redirect to another page or handle the response
+                            fetch('/save_photo/', {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}',
+                                },
                             })
-                            .catch(error => console.error(error));
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                })
+                                .catch(error => console.error(error));
 
-                        // Stop the camera stream and hide video and canvas
-                        stream.getTracks().forEach(track => track.stop());
-                        video.style.display = 'none';
-                        canvas.style.display = 'none';
-                        openCameraButton.style.display = 'block';
+                            stream.getTracks().forEach(track => track.stop());
+                            video.style.display = 'none';
+                            canvas.style.display = 'none';
+                            openCameraButton.style.display = 'block';
+                        }, 'image/jpeg');
                     };
                 })
                 .catch(function (error) {
-                    // The user denied access to the camera or an error occurred
                     console.error('Error accessing the camera:', error);
                 });
         } else {
-            // The browser does not support the getUserMedia API
             console.error('getUserMedia is not supported in this browser');
         }
     };

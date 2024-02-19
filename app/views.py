@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
 import cv2
 import numpy as np
+import base64
+from io import BytesIO
+from PIL import Image
 
 # Create your views here.
 def Register(request):
@@ -133,27 +136,37 @@ def TakePhoto(request):
     return render(request, 'app/take-photo.html')
 
 
+from django.http import JsonResponse
+
 @csrf_exempt
 def savePhoto(request):
     if request.method == 'POST':
-        image_data = request.POST.get('image_data', '')
-        image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
+        try:
+            image_data = request.POST.get('image_data', '')
+            image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
 
-        decoded_image = base64.b64decode(image_data)
+            decoded_image = base64.b64decode(image_data)
 
-        image = Image.open(BytesIO(decoded_image))
+            image = Image.open(BytesIO(decoded_image))
 
-        form = PhotoForm({'image': image})
+            form = PhotoForm({'image': image})
 
-        if form.is_valid():
-            photo = form.save(commit=False)
-            photo.client = request.user.client
-            photo.status = 'pending'
-            photo.save()
+            if form.is_valid():
+                photo = form.save(commit=False)
+                photo.client = request.user.client
+                photo.status = 'pending'
+                photo.save()
 
-            return JsonResponse({'status': 'success', 'photo_id': photo.id})
+                return JsonResponse({'status': 'success', 'photo_id': photo.id})
 
-    return JsonResponse({'status': 'error'})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status': 'error', 'message': 'Invalid image data format'})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+
 
 def MyDocuments(request):
     return render(request, 'app/myDocuments.html')
