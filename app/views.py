@@ -178,7 +178,11 @@ def MyDocuments(request):
     return render(request, 'app/myDocuments.html', context)
 
 def IdStatus(request):
-    return render(request, 'app/IdStatus.html')
+    client = request.user.client
+    my_docs = ConfirmationDocument.objects.filter(client=client)
+
+    context = {'my_docs':my_docs}
+    return render(request, 'app/IdStatus.html', context)
 
 
 def AboutUs(request):

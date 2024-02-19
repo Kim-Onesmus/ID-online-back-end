@@ -23,43 +23,58 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th>No</th>
+                                <th>User</th>
                                 <th>Document</th>
                                 <th>Date Uploaded</th>
                                 <th>Status</th>
                                 <th>Reason</th>
+                                <th>Preview</th>
                             </tr>
+
                             <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
+                                <td><img style="width: 30px; height: 30px;border-radius: 50%;"
+                                        src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
+                                <td>Birth certificate</td>
+                                <td>{{my_docs.first.date}}</td>
+                                {% if my_docs.first.status == 'approved' %}
                                 <td><span class="label label-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>219</td>
-                                <td>Alexander Pierce</td>
-                                <td>11-7-2014</td>
+                                {% elif my_docs.first.status == 'pending' %}
                                 <td><span class="label label-warning">Pending</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-                                </td>
+                                {% else %}
+                                <td><span class="label label-danger">Cancelled</span></td>
+                                {% endif %}
+                                <td>{{my_docs.first.reason}}</td>
+                                <td><a href="{{my_docs.first.birth_certificate.url}}" download>Preview</a></td>
                             </tr>
                             <tr>
-                                <td>657</td>
-                                <td>Bob Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="label label-primary">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-                                </td>
+                                <td><img style="width: 30px; height: 30px;border-radius: 50%;"
+                                        src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
+                                <td>Location document proove</td>
+                                <td>{{my_docs.first.date}}</td>
+                                {% if my_docs.first.status == 'approved' %}
+                                <td><span class="label label-success">Approved</span></td>
+                                {% elif my_docs.first.status == 'pending' %}
+                                <td><span class="label label-warning">Pending</span></td>
+                                {% else %}
+                                <td><span class="label label-danger">Cancelled</span></td>
+                                {% endif %}
+                                <td>{{my_docs.first.reason}}</td>
+                                <td><a href="{{my_docs.first.location_doc.url}}" download>Preview</a></td>
                             </tr>
                             <tr>
-                                <td>175</td>
-                                <td>Mike Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="label label-danger">Denied</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-                                </td>
+                                <td><img style="width: 30px; height: 30px;border-radius: 50%;"
+                                        src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
+                                <td>Parent Identity card</td>
+                                <td>{{my_docs.first.date}}</td>
+                                {% if my_docs.first.status == 'approved' %}
+                                <td><span class="label label-success">Approved</span></td>
+                                {% elif my_docs.first.status == 'pending' %}
+                                <td><span class="label label-warning">Pending</span></td>
+                                {% else %}
+                                <td><span class="label label-danger">Cancelled</span></td>
+                                {% endif %}
+                                <td>{{my_docs.first.reason}}</td>
+                                <td><a href="{{my_docs.first.parent_id.url}}" download>Preview</a></td>
                             </tr>
                         </table>
                     </div><!-- /.box-body -->
