@@ -42,6 +42,8 @@
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
+                        {% if apply_info and location_info and doc_info and photo_info %}
+                        <p>Your </p>
                         <form class="w-50" role="form" method="post">
                             {% csrf_token %}
                             <div class="box-body">

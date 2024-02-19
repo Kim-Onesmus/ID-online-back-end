@@ -45,10 +45,14 @@
                         <div class="modal-body">
                             <!-- <p>One fine body&hellip;</p> -->
                         </div>
-                        <div class="modal-footer">
-                            <a class="btn btn-outline pull-left" data-dismiss="modal" href="{{request.META.HTTP_REFERER}}">Back</a>
-                            <input class="btn btn-outline" type="submit" value="LogOut">
-                        </div>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="modal-footer">
+                                <a class="btn btn-outline pull-left" data-dismiss="modal"
+                                    href="{{request.META.HTTP_REFERER}}">Back</a>
+                                <input class="btn btn-outline" type="submit" value="LogOut">
+                            </div>
+                        </form>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
