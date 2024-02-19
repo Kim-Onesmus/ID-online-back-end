@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -190,8 +190,19 @@ def AboutUs(request):
 
 
 def ContactUs(request):
-    return render(request, 'app/contact.html')
+    if request.method == 'POST':
+        client = request.user.client
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
 
+        contact_details = Contact.objects.create(client=client, name=name, email=email, subject=subject, message=message)
+        contact_details.save()
+        message.info(request, 'Messange sent')
+        return redirect('index')
+
+    return render(request, 'app/contact.html')
 
 def AccountDetails(request):
     user = request.user

@@ -62,3 +62,13 @@ class Photo(models.Model):
     status = models.CharField(max_length=200, choices=status, default='pending')
 
 
+class Contact(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    message = models.CharField(max_length=1000)
+
+

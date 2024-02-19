@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact
 # Register your models here.
 
 @admin.register(Client)
@@ -27,3 +27,8 @@ class ConfirmationDocumentTable(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoTable(admin.ModelAdmin):
     list_display = ('client', 'image', 'status')
+
+
+@admin.register(Contact)
+class ContactTable(admin.ModelAdmin):
+    list_display = ('client', 'name', 'email', 'subject', 'message', 'date', 'time')
