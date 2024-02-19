@@ -136,36 +136,38 @@ def TakePhoto(request):
     return render(request, 'app/take-photo.html')
 
 
+# views.py
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
+from PIL import Image
+import base64
 
 @csrf_exempt
 def savePhoto(request):
     if request.method == 'POST':
         try:
-            image_data = request.POST.get('image_data', '')
-            image_data = image_data.split(',')[1]  # Remove "data:image/jpeg;base64,"
+            image_data = request.FILES.get('image')
 
-            decoded_image = base64.b64decode(image_data)
+            # You can use SimpleUploadedFile to create a Django UploadedFile instance
+            uploaded_file = SimpleUploadedFile('image.jpg', image_data.read())
 
-            image = Image.open(BytesIO(decoded_image))
-
-            form = PhotoForm({'image': image})
+            form = PhotoForm({'image': uploaded_file})
 
             if form.is_valid():
                 photo = form.save(commit=False)
-                photo.client = request.user.client
+                photo.client = request.user.client  # Assuming you have authentication in place
                 photo.status = 'pending'
                 photo.save()
 
                 return JsonResponse({'status': 'success', 'photo_id': photo.id})
 
         except Exception as e:
-            print(e)
-            return JsonResponse({'status': 'error', 'message': 'Invalid image data format'})
+            print(f"Error: {e}")
+            return JsonResponse({'status': 'error', 'message': 'Failed to save photo'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
-
 
 
 def MyDocuments(request):
