@@ -157,7 +157,7 @@ def TakePhoto(request):
     client = request.user.client
     photo_info = Photo.objects.filter(client=client).first
     if photo_info:
-        return redirect('index')
+        return redirect('apply_id')
     else:
         return render(request, 'app/take-photo.html')
     return render(request, 'app/take-photo.html')
