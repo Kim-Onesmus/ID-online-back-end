@@ -113,55 +113,53 @@ def Apply_ID(request):
 def LocationData(request):
     client = request.user.client
     location_info = LocatioDetails.objects.filter(client=client).first()
-    if location_info:
-        return redirect('confirmation_documents')
-    if request.method == 'POST':
-        client = request.user.client
-        county = request.POST['county']
-        sub_county = request.POST['sub_county']
-        district = request.POST['district']
-        division = request.POST['division']
-        location = request.POST['location']
-        sub_location = request.POST['sub_location']
-        village = request.POST['village']
-        land_mark = request.POST['land_mark']
+    if not location_info:
+        if request.method == 'POST':
+            client = request.user.client
+            county = request.POST['county']
+            sub_county = request.POST['sub_county']
+            district = request.POST['district']
+            division = request.POST['division']
+            location = request.POST['location']
+            sub_location = request.POST['sub_location']
+            village = request.POST['village']
+            land_mark = request.POST['land_mark']
 
-        lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, district=district, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
-        lacatio_data.save()
-        return redirect('confirmation_documents')
-    else:
+            lacatio_data = LocatioDetails.objects.create(client=client, date=date, county=county, sub_county=sub_county, district=district, division=division, location=location, sub_location=sub_location, village=village, land_mark=land_mark)
+            lacatio_data.save()
+            return redirect('confirmation_documents')
+        else:
+            return render(request, 'app/location.html')
         return render(request, 'app/location.html')
-    return render(request, 'app/location.html')
+    return redirect('confirmation_documents')
 
 def ConfirmationDocuments(request):
     client = request.user.client
     doc_info = ConfirmationDocument.objects.filter(client=client).first()
-    if doc_info:
-        return redirect('take_photo')
+    if not doc_info:
+        form = ConfirmationDocumentForm()
+        if request.method == 'POST':
+            form = ConfirmationDocumentForm(request.POST, request.FILES)
+            if form.is_valid():
+                confirmation_document = form.save(commit=False)
+                confirmation_document.client = request.user.client
+                confirmation_document.status = 'pending'
+                confirmation_document.save()
+                return redirect('take_photo')
 
-    form = ConfirmationDocumentForm()
-    if request.method == 'POST':
-        form = ConfirmationDocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            confirmation_document = form.save(commit=False)
-            confirmation_document.client = request.user.client
-            confirmation_document.status = 'pending'
-            confirmation_document.save()
-            return redirect('take_photo')
+            else:
+                print(form.errors)
 
-        else:
-            print(form.errors)
-
-    context = {'form':form}
-    return render(request, 'app/confirmationDocs.html', context)
+        context = {'form':form}
+        return render(request, 'app/confirmationDocs.html', context)
+    return redirect('take_photo')
 
 def TakePhoto(request):
     client = request.user.client
     photo_info = Photo.objects.filter(client=client).first()
-    if photo_info:
-        return redirect('id_status')
-
-    return render(request, 'app/take-photo.html')
+    if not photo_info:
+        return render(request, 'app/take-photo.html')
+    return redirect('id_status')
 
 
 # views.py
