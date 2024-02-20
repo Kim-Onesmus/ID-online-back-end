@@ -8,11 +8,14 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 import cv2
 import numpy as np
 import base64
 from io import BytesIO
 from PIL import Image
+
 
 # Create your views here.
 def Register(request):
@@ -172,13 +175,6 @@ def ApplyIdDone(request):
     context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
     return render(request, 'app/ApplyIdDone.html', context)
 
-# views.py
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import SimpleUploadedFile
-from PIL import Image
-import base64
 
 @csrf_exempt
 def savePhoto(request):
