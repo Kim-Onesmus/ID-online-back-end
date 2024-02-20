@@ -159,8 +159,18 @@ def TakePhoto(request):
     photo_info = Photo.objects.filter(client=client).first()
     if not photo_info:
         return render(request, 'app/take-photo.html')
-    return redirect('id_status')
+    return redirect('applyIdDone')
 
+def ApplyIdDone(request):
+    client = request.user.client
+    apply_info = applyID.objects.filter(client=client).first()
+    location_info = LocatioDetails.objects.filter(client=client).first()
+    doc_info = ConfirmationDocument.objects.filter(client=client).first()
+    photo_info = Photo.objects.filter(client=client).first()
+    my_docs = ConfirmationDocument.objects.filter(client=client).first()
+
+    context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
+    return render(request, 'app/ApplyIdDone.html', context)
 
 # views.py
 from django.http import JsonResponse
