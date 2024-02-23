@@ -14,6 +14,8 @@ urlpatterns = [
     path('save_photo/', savePhoto, name='save_photo'),
     path('my_documents', views.MyDocuments, name='my_documents'),
     path('id_status', views.IdStatus, name='id_status'),
+    path('pay_id', views.PayView, name='pay_url'),
+
     path('about_us', views.AboutUs, name='about_us'),
     path('contact_us', views.ContactUs, name='contact_us'),
     path('account_details', views.AccountDetails, name='account_details'),

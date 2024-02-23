@@ -219,6 +219,9 @@ def IdStatus(request):
     return render(request, 'app/IdStatus.html', context)
 
 
+def PayView(request):
+    return render(request, 'app/pay.html')
+
 def AboutUs(request):
     return render(request, 'app/aboutUs.html')
 

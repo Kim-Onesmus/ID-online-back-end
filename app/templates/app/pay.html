@@ -1,0 +1,104 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Right side column. Contains the navbar and content of the page -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Apply ID
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Apply ID</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-2">
+                <!-- general form elements -->
+                <div class="">
+                    <!-- form start -->
+                    <form role="form">
+                        <div class="box-body">
+                            <div style="text-align: center;" class="form-group">
+                                <!-- <img style="width: 200px; height: 200px; border-radius: 50%;"
+                                            src="dist/img/user2-160x160.jpg" class="user-image" /> -->
+                            </div>
+                        </div><!-- /.box-body -->
+                    </form>
+                </div><!-- /.box -->
+            </div>
+            <div class="col-md-8">
+                <!-- general form elements disabled -->
+                <div class="box box-primary">
+                    <div class="box-header text-center danger">
+                        <h3 style="color: red;" class="box-title text-bold">Payment<br>
+                            <span style="color: dodgerblue;">Pay to download your ID</span>
+                        </h3>
+                        <p>An amount of KSH. 1 will be deducted from the the number that you will enter</p>
+                        {% for data in messages %}
+                        {{data}}
+                        {% endfor %}
+                    </div><!-- /.box-header -->
+                    <div class="box-body d-flex flex-column align-items-center">
+                        <form class="w-50" role="form" method="post">
+                            {% csrf_token %}
+                            <div class="box-body">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">County</label>
+                                    <input type="text" class="form-control" name="county"
+                                        placeholder="Enter county of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Sub-County</label>
+                                    <input type="text" class="form-control" name="sub_county"
+                                        placeholder="Enter Sub-County" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">District of Birth</label>
+                                    <input type="text" class="form-control" name="district"
+                                        placeholder="Enter district of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Division</label>
+                                    <input type="text" class="form-control" name="division"
+                                        placeholder="Division of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Location</label>
+                                    <input type="text" class="form-control" name="location"
+                                        placeholder="Location of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Sub-Location</label>
+                                    <input type="text" class="form-control" name="sub_location"
+                                        placeholder="Sub-Location of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Village</label>
+                                    <input type="text" class="form-control" name="village"
+                                        placeholder="Village of birth" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Land Mark/Road</label>
+                                    <input type="text" class="form-control" name="land_mark"
+                                        placeholder="Land mark or road" required>
+                                </div>
+                            </div>
+
+                            <div style="text-align: center;" class="box-footer">
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock content %}
