@@ -15,6 +15,7 @@ urlpatterns = [
     path('my_documents', views.MyDocuments, name='my_documents'),
     path('id_status', views.IdStatus, name='id_status'),
     path('pay_id', views.PayView, name='pay_url'),
+    path('my_id', views.MyIDView, name='myID_url'),
 
     path('about_us', views.AboutUs, name='about_us'),
     path('contact_us', views.ContactUs, name='contact_us'),

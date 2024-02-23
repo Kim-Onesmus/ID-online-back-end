@@ -222,6 +222,10 @@ def IdStatus(request):
 def PayView(request):
     return render(request, 'app/pay.html')
 
+
+def MyIDView(request):
+    return render(request, 'app/my_id.html')
+
 def AboutUs(request):
     return render(request, 'app/aboutUs.html')
 

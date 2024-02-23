@@ -48,7 +48,7 @@
                         {% endfor %}
                     </div><!-- /.box-header -->
                     <div class="box-body d-flex flex-column align-items-center">
-                        <form class="w-50" role="form" method="post">
+                        <form class="w-50" role="form" method="post" action="{% url 'myID_url' %}">
                             {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group col-md-12">
@@ -59,13 +59,15 @@
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputPassword1">Phone number (+2547_______)</label>
                                     <input type="text" class="form-control" name="phone"
-                                        placeholder="Enter your phone number" required>
+                                        placeholder="Enter your phone number" >
                                 </div>
                             </div>
 
+                            <a href="{% url 'myID_url' %}">
                             <div style="text-align: center;" class="box-footer">
                                 <button type="submit" class="btn btn-primary">Pay</button>
                             </div>
+                            </a>
                         </form>
 
                     </div>

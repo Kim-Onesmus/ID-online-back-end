@@ -31,24 +31,43 @@
                     </form>
                 </div><!-- /.box -->
             </div>
-            <div class="col-md-6">
-                <!-- general form elements disabled -->
-                <div class="box box-primary">
-                    <div class="box-header text-center danger">
-                        <h3 style="color: red;" class="box-title text-bold">Payment<br>
-                            <span style="color: dodgerblue;">Pay to download your ID</span>
-                        </h3>
-                        <p>An amount of KSH. 1 will be deducted from the the number that you will enter
-                            <br>
-                            After clicking the Pay button,you will receive a prompt in your mobile number, enter your
-                            M-Pesa pin to complete the payment
-                        </p>
-                        {% for data in messages %}
-                        {{data}}
-                        {% endfor %}
-                    </div><!-- /.box-header -->
-                    <div class="box-body d-flex flex-column align-items-center">
-                        <form class="w-50" role="form" method="post">
+            <div class="col-md-8">
+                <div class="box">
+                    <div class="row">
+                        <div class="box-header danger">
+                            <div class="col-md-4">
+                                <h3 style="color: green;" class="box-title text-bold">
+                                    JAMHURI YA KENYA
+                                </h3>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 style="color: red;text-align: center;" class="box-title text-bold">
+                                    <!-- <img style="width: 20px; height: 50px;" src="{% static 'logo.png' %}" alt=""> -->
+                                </h3>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 style="color: green" class="box-title text-bold">
+                                    REPUBLIC OF KENYA
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="box-header danger">
+                            <div class="col-md-6">
+                                <h3 style="color: green;" class="box-title text-bold">
+                                    <small>SERIAL NUMBER: </small></small><span style="color: black;">23456789393</span>
+                                </h3>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 style="color: green" class="box-title text-bold">
+                                    <small>ID NUMBER: </small><span style="color: black;">38917851</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="box-body d-flex flex-column align-items-center"> -->
+                    <!-- <form>
                             {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group col-md-12">
@@ -68,7 +87,7 @@
                             </div>
                         </form>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
