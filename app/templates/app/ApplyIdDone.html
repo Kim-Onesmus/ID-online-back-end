@@ -32,19 +32,6 @@
                 </div><!-- /.box -->
             </div>
             {% if apply_info and location_info and doc_info and photo_info %}
-            <div class="box-body d-flex flex-column align-items-center">
-                <form class="w-50">
-                    <div class="box-body">
-                    </div>
-
-                    <div style="text-align: center;" class="box-footer">
-                        <p>Your ID applican has been received and is being processed, click <a
-                                href="{% url 'id_status' %}">here</a> to view
-                            ID status</p>
-                        <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
-                    </div>
-                </form>
-            </div>
             {% if photo_info.status == 'approved' and my_docs.status == 'approved' %}
             <div class="box-body d-flex flex-column align-items-center">
                 <form class="w-50">
@@ -60,6 +47,20 @@
                 </form>
             </div>
             {% else %}
+            <div class="box-body d-flex flex-column align-items-center">
+                <form class="w-50">
+                    <div class="box-body">
+                    </div>
+
+                    <div style="text-align: center;" class="box-footer">
+                        <p>Your ID applican has been received and is being processed, click <a
+                                href="{% url 'id_status' %}">here</a>
+                            to view
+                            ID status</p>
+                        <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
+                    </div>
+                </form>
+            </div>
             {% endif %}
             {% else %}
             {% endif %}
