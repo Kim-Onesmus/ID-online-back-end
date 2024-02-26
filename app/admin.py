@@ -1,6 +1,6 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact
-# Register your models here.
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay
+# Register your models here.,
 
 @admin.register(Client)
 class ClientTable(admin.ModelAdmin):
@@ -32,3 +32,8 @@ class PhotoTable(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactTable(admin.ModelAdmin):
     list_display = ('client', 'name', 'email', 'subject', 'message', 'date', 'time')
+
+
+@admin.register(Pay)
+class PayTable(admin.ModelAdmin):
+    list_display = ('client', 'created_date', 'created_time', 'number', 'amount')

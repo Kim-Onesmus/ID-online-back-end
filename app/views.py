@@ -220,6 +220,61 @@ def IdStatus(request):
 
 
 def PayView(request):
+    if request.method == 'POST':
+        number = request.POST['number']
+        amount = request.POST['amount']
+        user = request.user
+
+        if len(number) == 12 and (number.startswith('254') or number.startswith('2547')):
+            access_token = MpesaAccessToken.validated_mpesa_access_token
+            api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+            headers = {"Authorization": "Bearer %s" % access_token}
+
+            payload = {
+                "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
+                "Password": LipanaMpesaPpassword.decode_password,
+                "Timestamp": LipanaMpesaPpassword.lipa_time,
+                "TransactionType": "CustomerPayBillOnline",
+                "Amount": amount,
+                "PartyA": number,
+                "PartyB": LipanaMpesaPpassword.Business_short_code,
+                "PhoneNumber": number,
+                "CallBackURL": 'https://30de-105-160-60-50.ngrok-free.app/callback/',
+                "AccountReference": "KimTech",
+                "TransactionDesc": "Savings"
+            }
+            print('Payload', payload)
+
+            response = requests.post(api_url, json=payload, headers=headers)
+            print('response', response)
+
+            if response.status_code == 200:
+                mpesa_response = response.json()
+                print('Mpesa Response', mpesa_response)
+                
+                # Check if 'ResponseCode' is in mpesa_response and its value is '0'
+                if 'ResponseCode' in mpesa_response and mpesa_response['ResponseCode'] == '0':
+                    deposit = Pay.objects.create(
+                        client=user.client,
+                        amount=amount,
+                        number=number,
+                    )
+                    deposit.save()
+                    
+                    messages.success(request, 'Deposit successful')
+                    return redirect('deposit')
+                else:
+                    # Handle the case where the 'ResponseCode' is not '0'
+                    messages.error(request, 'Deposit failed: ResponseCode is not 0')
+            else:
+                # Handle the case where the API call failed
+                messages.error(request, 'M-Pesa API call failed')
+        else:
+            messages.error(request, f"Phone number '{number}' is not valid or in the wrong format")
+        
+        return redirect('deposit')
+    else:
+        return render(request, 'app/pay.html')
     return render(request, 'app/pay.html')
 
 

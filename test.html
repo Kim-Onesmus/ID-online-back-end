@@ -1,111 +1,291 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Access Example</title>
-    <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();"
-        crossorigin="anonymous"></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #video-container {
-            position: relative;
-        }
-
-        #video {
-            width: 300px;
-            height: 200px;
-        }
-
-        #captureButton {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 </head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans';
+    }
+
+    body {
+        background: #aaa;
+    }
+
+    .dash {
+        content: '';
+        width: 100%;
+        height: 1px;
+        background: #676767;
+        display: block;
+        clear: both;
+    }
+
+    .page {
+        width: 1000px;
+        height: 1414.2135px;
+        background: white;
+        margin: 100px auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page .overlay #left_rect {
+        width: 200%;
+        height: 500px;
+        background: #676767;
+        position: absolute;
+        z-index: 1;
+        transform: rotate(-45deg);
+        left: -100%;
+        top: -50px;
+    }
+
+    .page .overlay #right_rect {
+        width: 200%;
+        height: 500px;
+        background: #26556d;
+        position: absolute;
+        transform: rotate(16.18deg);
+        z-index: 2;
+        left: -100px;
+        top: -249px;
+    }
+
+    .page .left,
+    .page .right {
+        float: left;
+    }
+
+    .page .left {
+        width: calc(38.1966% - 50px);
+        height: 100%;
+        background: #eee;
+        padding: 565px 25px 0;
+    }
+
+    .page .left img {
+        width: 250px;
+        position: absolute;
+        left: 60px;
+        top: 190px;
+        z-index: 2;
+    }
+
+    .page .left .section {
+        margin-bottom: 25px;
+    }
+
+    .page .left .section.contact {
+        position: absolute;
+        left: 25px;
+        bottom: 0;
+    }
+
+    .page .right {
+        width: calc(61.8034% - 50px);
+        height: 100%;
+        margin-top: 200px;
+        padding: 25px;
+    }
+
+    .page .right .top h1 {
+        color: #255571;
+        font-size: 35px;
+        float: left;
+    }
+
+    .page .right .top h2 {
+        color: #666;
+        font-size: 20px;
+        float: left;
+        margin-top: 15px;
+        margin-left: 10px;
+        font-weight: 400;
+    }
+
+    .page .right .top:after {
+        content: '';
+        display: block;
+        clear: both;
+        height: 25px;
+    }
+
+    .page .right .section:after {
+        content: '';
+        display: block;
+        clear: both;
+        height: 25px;
+    }
+
+
+    .page .section h1 {
+        color: #26556d;
+        font-size: 25px;
+        text-transform: uppercase;
+    }
+
+    .page .right .section .sub {
+        padding: 5px 0 10px;
+    }
+
+    .page .right .section .sub.half {
+        width: 50%;
+        float: left;
+    }
+
+    .page .right .section .sub h2 {
+        color: #676767;
+        font-size: 18px;
+    }
+
+    .page .right .section .sub h3 {
+        color: #676767;
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+
+    .page .right .section .sub h4,
+    .page .left .section p {
+        color: #777;
+        font-size: 17px;
+        font-weight: 400;
+    }
+
+    .page .right .section .sub ul {
+        margin-left: 30px;
+        color: #777;
+        font-size: 17px;
+        font-weight: 400;
+    }
+</style>
 
 <body>
-
-    <div id="video-container">
-        <video id="video" autoplay></video>
-        <button id="captureButton" class="btn btn-primary" style="display: none;">Capture and Save</button>
-    </div>
-
-    <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
-    <canvas id="canvas" width="300px" height="200px" style="display: none;"></canvas>
-
-    <script>
-        let video = document.getElementById('video');
-        let canvas = document.getElementById('canvas');
-        let openCameraButton = document.getElementById('openCameraButton');
-        let captureButton = document.getElementById('captureButton');
-        let stream;
-
-        openCameraButton.onclick = function () {
-            // Check if the browser supports the getUserMedia API
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                // Request access to the camera
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function (streamObj) {
-                        // The user granted access to the camera
-                        // You can now use the stream to display the camera feed, capture images, etc.
-                        stream = streamObj;
-                        video.srcObject = streamObj;
-                        captureButton.style.display = 'block';
-                        openCameraButton.style.display = 'none';
-
-                        // Set up canvas for image capture
-                        const context = canvas.getContext('2d');
-
-                        // Capture and save image
-                        captureButton.onclick = function () {
-                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                            // Convert canvas image data to base64
-                            const imageData = canvas.toDataURL('image/jpeg');
-
-                            // Send base64 image data to Django backend
-                            fetch('/save_photo/', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRFToken': '{{ csrf_token }}',
-                                },
-                                body: JSON.stringify({ image_data: imageData }),
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log(data);
-                                    // Optionally, redirect to another page or handle the response
-                                })
-                                .catch(error => console.error(error));
-
-                            // Stop the camera stream and hide video and canvas
-                            stream.getTracks().forEach(track => track.stop());
-                            video.style.display = 'none';
-                            canvas.style.display = 'none';
-                            openCameraButton.style.display = 'block';
-                        };
-                    })
-                    .catch(function (error) {
-                        // The user denied access to the camera or an error occurred
-                        console.error('Error accessing the camera:', error);
-                    });
-            } else {
-                // The browser does not support the getUserMedia API
-                console.error('getUserMedia is not supported in this browser');
-            }
-        };
-    </script>
-
+    <section class="page">
+        <div class="overlay">
+            <div id="left_rect"></div>
+            <div id="right_rect"></div>
+        </div>
+        <div class="left">
+            <img src="https://cdn.pixabay.com/photo/2015/12/22/04/00/photo-1103597_1280.png">
+            <div class="section about">
+                <h1>About Me</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </p>
+            </div>
+            <div class="section contact">
+                <h1>Contact</h1>
+                <p>
+                    John Doe<br>
+                    Some Street 123<br>
+                    1234 City<br><br>
+                    <b>T:</b> 01234 5678910<br>
+                    <b>M:</b> john.doe@mail.com
+                </p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="top">
+                <h1>John Doe</h1>
+                <h2>01.01.1990</h2>
+            </div>
+            <div class="section">
+                <h1>Lorem Ipsum</h1>
+                <div class="sub half">
+                    <h2>School (2,0)</h2>
+                    <h3>Sep 2000 - Aug 2015</h3>
+                    <h4>Some School</h4>
+                </div>
+                <div class="sub half">
+                    <h2>B.Sc. Business</h2>
+                    <h3>Sep 2016 - Mar 2019</h3>
+                    <h4>Some University</h4>
+                </div>
+            </div>
+            <div class="section">
+                <h1>Lorem Ipsum</h1>
+                <div class="sub">
+                    <h2>Softwaredeveloper at some company</h2>
+                    <h3>Aug 2015 - Mar 2016</h3>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                    </ul>
+                </div>
+                <span class="dash"></span>
+                <div class="sub">
+                    <h2>Softwaredeveloper at some company</h2>
+                    <h3>Apr 2016 - Feb 2017</h3>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                    </ul>
+                </div>
+                <span class="dash"></span>
+                <div class="sub">
+                    <h2>Softwaredeveloper at some company</h2>
+                    <h3>Mar 2017 - Mar 2018</h3>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h1>Lorem Ipsum</h1>
+                <div class="sub half">
+                    <h2>IT-Knowledge</h2>
+                    <ul>
+                        <li>PHP, Java, JavaScript</li>
+                        <li>HTML, CSS, jQuery, MySQL</li>
+                        <li>Operating Systems: Windows, MacOS</li>
+                    </ul>
+                </div>
+                <div class="sub half">
+                    <h2>Languages</h2>
+                    <ul>
+                        <li>German</li>
+                        <li>English</li>
+                        <li>French</li>
+                        <li>Spanish</li>
+                    </ul>
+                </div>
+                <span class="dash"></span>
+                <div class="sub">
+                    <h2>Interests</h2>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consetetur sadipscing elitr:</li>
+                        <ul>
+                            <li>Sed diam nonumy eirmod tempor invidunt</li>
+                            <li>Sed diam nonumy eirmod tempor invidunt</li>
+                            <li>Sed diam nonumy eirmod tempor invidunt</li>
+                        </ul>
+                        <li>
+                            Sed diam nonumy eirmod tempor invidunt
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
