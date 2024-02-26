@@ -11,6 +11,8 @@ from datetime import datetime, date
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+from django.core.mail import send_mail
+from django.conf import settings
 import json
 import requests
 import cv2
