@@ -63,6 +63,15 @@
                             </table>
                             <br><br>
                             {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
+                            {% if pay_details %}
+                            <div style="text-align: center;" class="box-footer">
+                                <a href="{% url 'lost_id' %}">
+                                    <button class="btn btn-primary">
+                                        <form action="">Lost ID</form>
+                                    </button>
+                                </a>
+                            </div>
+                            {% else %}
                             <div style="text-align: center;" class="box-footer">
                                 <a href="{% url 'pay_url' %}">
                                     <button class="btn btn-primary">
@@ -70,6 +79,7 @@
                                     </button>
                                 </a>
                             </div>
+                            {% endif %}
                             {% else %}
                             {% endif %}
                             {% else %}

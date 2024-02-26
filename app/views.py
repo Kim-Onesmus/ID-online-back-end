@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
+from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+import json
+import requests
 import cv2
 import numpy as np
 import base64
@@ -214,12 +217,20 @@ def IdStatus(request):
     client = request.user.client
     my_docs = ConfirmationDocument.objects.filter(client=client)
     photo_info = Photo.objects.filter(client=client).first()
+    pay_details = Pay.objects.filter(client=client).first()
 
-    context = {'my_docs':my_docs, 'photo_info':photo_info}
+    context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details}
     return render(request, 'app/IdStatus.html', context)
 
 
 def PayView(request):
+    client = request.user.client
+    pay_details = Pay.objects.filter(client=client).first()
+
+    if pay_details:
+        messages.info(request, 'You already payed for your id, if you you lost your ID you can apply for lost ID')
+        return redirect('id_status')
+
     if request.method == 'POST':
         number = request.POST['number']
         amount = request.POST['amount']
@@ -255,14 +266,14 @@ def PayView(request):
                 # Check if 'ResponseCode' is in mpesa_response and its value is '0'
                 if 'ResponseCode' in mpesa_response and mpesa_response['ResponseCode'] == '0':
                     deposit = Pay.objects.create(
-                        client=user.client,
+                        client=client,
                         amount=amount,
                         number=number,
                     )
                     deposit.save()
                     
                     messages.success(request, 'Deposit successful')
-                    return redirect('deposit')
+                    return redirect('myID_url')
                 else:
                     # Handle the case where the 'ResponseCode' is not '0'
                     messages.error(request, 'Deposit failed: ResponseCode is not 0')
@@ -271,19 +282,17 @@ def PayView(request):
                 messages.error(request, 'M-Pesa API call failed')
         else:
             messages.error(request, f"Phone number '{number}' is not valid or in the wrong format")
-        
-        return redirect('deposit')
-    else:
-        return render(request, 'app/pay.html')
+            return redirect('pay_url')
     return render(request, 'app/pay.html')
 
-
+def LostID(request):
+    return render(request, 'app/lost_id.html')
+ 
 def MyIDView(request):
     return render(request, 'app/my_id.html')
 
 def AboutUs(request):
     return render(request, 'app/aboutUs.html')
-
 
 def ContactUs(request):
     if request.method == 'POST':
