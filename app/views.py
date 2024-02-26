@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay, LostId
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -286,6 +286,17 @@ def PayView(request):
     return render(request, 'app/pay.html')
 
 def LostID(request):
+    client = request.user.client
+    if request.method == 'POST':
+        client = client
+        select = request.POST['select']
+        text = request.POST['text']
+
+        lost_details = LostId.objects.create(client=client, select=select, text=text, status=status)
+        lost_details.save()
+        messages.info(request, 'Sumitted succesifully')
+        return redirect('id_status')
+        
     return render(request, 'app/lost_id.html')
  
 def MyIDView(request):

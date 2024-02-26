@@ -81,3 +81,11 @@ class Pay(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
 
+class LostId(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    created_date = models.DateField(auto_now_add=True)
+    created_time = models.TimeField(auto_now_add=True)
+    select = models.CharField(max_length=200)
+    text = models.CharField(max_length=500)
+    status = models.CharField(max_length=200, choices=status, default='pending')
+
