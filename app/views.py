@@ -387,8 +387,8 @@ def ContactUs(request):
         contact_details = Contact.objects.create(client=client, name=name, email=email, subject=subject, message=message)
         contact_details.save()
 
-        subject = ''
-        message = f'KSH.{amount} has been deposited in your account {client}.\nCheck your dashboard for verification. \nThank you. \nRegards \nSmart Saver'
+        subject = subject
+        message = message
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [request.user.email, ]
         send_mail( subject, message, email_from, recipient_list )
