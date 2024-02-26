@@ -218,8 +218,9 @@ def IdStatus(request):
     my_docs = ConfirmationDocument.objects.filter(client=client)
     photo_info = Photo.objects.filter(client=client).first()
     pay_details = Pay.objects.filter(client=client).first()
+    lost_id = LostId.objects.filter(client=client).first()
 
-    context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details}
+    context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details, 'lost_id':lost_id}
     return render(request, 'app/IdStatus.html', context)
 
 
@@ -287,6 +288,8 @@ def PayView(request):
 
 def LostID(request):
     client = request.user.client
+    lost_id = LostId.objects.filter(client=client)
+
     if request.method == 'POST':
         client = client
         select = request.POST['select']
@@ -298,7 +301,8 @@ def LostID(request):
         messages.info(request, 'Sumitted succesifully')
         return redirect('id_status')
 
-    return render(request, 'app/lost_id.html')
+    context = {'lost_id':lost_id}
+    return render(request, 'app/lost_id.html', context)
  
 def MyIDView(request):
     return render(request, 'app/my_id.html')
