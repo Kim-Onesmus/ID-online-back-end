@@ -7,12 +7,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Apply ID
+            Lost ID application
             <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Apply ID</li>
+            <li class="active">Lost ID application</li>
         </ol>
     </section>
     <section class="content">
@@ -31,28 +31,28 @@
                     </form>
                 </div><!-- /.box -->
             </div>
-            {% if apply_info and location_info and doc_info and photo_info %}
+            {% if lost_id %}
             <div class="box-body d-flex flex-column align-items-center">
                 <form class="w-50">
                     <div class="box-body">
                     </div>
 
                     <div style="text-align: center;" class="box-footer">
-                        <p>Your ID applican has been received and is being processed, click <a
+                        <p>Your Lost ID applican has been received and is being processed, click <a
                                 href="{% url 'id_status' %}">here</a> to view
                             ID status</p>
                         <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
                     </div>
                 </form>
             </div>
-            {% if photo_info.status == 'approved' and my_docs.status == 'approved' %}
+            {% if lost_id.first.status == 'approved' %}
             <div class="box-body d-flex flex-column align-items-center">
                 <form class="w-50">
                     <div class="box-body">
                     </div>
 
                     <div style="text-align: center;" class="box-footer">
-                        <p>Your ID applican has been processed and is ready, click <a
+                        <p>Your Lost ID applican has been processed and is ready, click <a
                                 href="{% url 'id_status' %}">here</a>
                             to download</p>
                         <!-- <button type="submit" class="btn btn-primary">Confirm</button> -->
@@ -67,11 +67,12 @@
                 <div class="box box-primary">
                     <div class="box-header text-center danger">
                         <h3 style="color: red;" class="box-title text-bold">Step 1 of 4</h3><br>
-                        <span style="color: dodgerblue;">Confirm user info</span>
+                        <span style="color: dodgerblue;"></span>
                         {% for data in messages %}
                         {{data}}
                         {% endfor %}
                     </div><!-- /.box-header -->
+
                     <div class="box-body d-flex flex-column align-items-center">
                         <form class="w-50" role="form" method="post">
                             {% csrf_token %}
