@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay, LostId
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -286,12 +286,13 @@ def PayView(request):
             return redirect('pay_url')
     return render(request, 'app/pay.html')
 
-def PayView(request):
+def LostIDPay(request):
     client = request.user.client
-    lost_details = Pay.objects.filter(client=client).first()
+    lostpayID = Pay.objects.filter(client=client).first()
+    print(lostpayID)
 
-    if lost_details:
-        messages.info(request, 'You already payed for your lost id, if you you lost your ID again, contact us for re-application')
+    if lostpayID:
+        messages.info(request, 'You already paid for your lost ID')
         return redirect('id_status')
 
     if request.method == 'POST':
@@ -328,7 +329,7 @@ def PayView(request):
                 
                 # Check if 'ResponseCode' is in mpesa_response and its value is '0'
                 if 'ResponseCode' in mpesa_response and mpesa_response['ResponseCode'] == '0':
-                    deposit = Pay.objects.create(
+                    deposit = LostPayPay.objects.create(
                         client=client,
                         amount=amount,
                         number=number,
@@ -345,8 +346,8 @@ def PayView(request):
                 messages.error(request, 'M-Pesa API call failed')
         else:
             messages.error(request, f"Phone number '{number}' is not valid or in the wrong format")
-            return redirect('pay_url')
-    return render(request, 'app/pay.html')
+            return redirect('lostpay_url')
+    return render(request, 'app/lost_pay.html')
 
 def LostID(request):
     client = request.user.client
