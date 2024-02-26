@@ -75,7 +75,7 @@
                                     <tr>
                                         <td><img style="width: 30px; height: 30px;border-radius: 50%;"
                                                 src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
-                                        {% if lost_id.status == 'approved' %}
+                                        {% if lost_id.status == 'approved' and lost %}
                                         <td><span class="label label-success">Ready</span></td>
                                         {% elif lost_id.status == 'pending' %}
                                         <td><span class="label label-warning">Being Processed</span></td>

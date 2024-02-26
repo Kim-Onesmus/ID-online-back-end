@@ -219,8 +219,9 @@ def IdStatus(request):
     photo_info = Photo.objects.filter(client=client).first()
     pay_details = Pay.objects.filter(client=client).first()
     lost_id = LostId.objects.filter(client=client).first()
+    lost_pay = LostPay.objects.filter(client=client).first()
 
-    context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details, 'lost_id':lost_id}
+    context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details, 'lost_id':lost_id, 'lost_pay':lost_pay}
     return render(request, 'app/IdStatus.html', context)
 
 
@@ -288,7 +289,7 @@ def PayView(request):
 
 def LostIDPay(request):
     client = request.user.client
-    lostpayID = Pay.objects.filter(client=client).first()
+    lostpayID = LostPay.objects.filter(client=client).first()
     print(lostpayID)
 
     if lostpayID:
@@ -329,7 +330,7 @@ def LostIDPay(request):
                 
                 # Check if 'ResponseCode' is in mpesa_response and its value is '0'
                 if 'ResponseCode' in mpesa_response and mpesa_response['ResponseCode'] == '0':
-                    deposit = LostPayPay.objects.create(
+                    deposit = LostPay.objects.create(
                         client=client,
                         amount=amount,
                         number=number,
