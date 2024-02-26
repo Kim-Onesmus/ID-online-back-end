@@ -291,12 +291,13 @@ def LostID(request):
         client = client
         select = request.POST['select']
         text = request.POST['text']
+        status = 'pending'
 
         lost_details = LostId.objects.create(client=client, select=select, text=text, status=status)
         lost_details.save()
         messages.info(request, 'Sumitted succesifully')
         return redirect('id_status')
-        
+
     return render(request, 'app/lost_id.html')
  
 def MyIDView(request):
