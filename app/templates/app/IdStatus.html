@@ -61,6 +61,52 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            {% if lost_id %}
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Lost Id status</th>
+                                        <th>Users Messange</th>
+                                        <th>Messange</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img style="width: 30px; height: 30px;border-radius: 50%;"
+                                                src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
+                                        {% if lost_id.status == 'approved' %}
+                                        <td><span class="label label-success">Ready</span></td>
+                                        {% elif lost_id.status == 'pending' %}
+                                        <td><span class="label label-warning">Being Processed</span></td>
+                                        {% else %}
+                                        <td><span class="label label-danger">Lost ID application has been cancelled</span></td>
+                                        {% endif %}
+
+                                        <td>{{lost_id.text}}</td>
+                                        {% if lost_id.status == 'approved' %}
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                Your lost ID application has been approved and you ID is ready
+                                            </div>
+                                        </td>
+                                        {% elif lost_id.status == 'pending' %}
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                Your ID is being Processed once it is ready we will let you know.
+                                            </div>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                Your lost ID application has been Cancelled, please contact us to request for
+                                                re-application
+                                            </div>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
                             <br><br>
                             {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
                             {% if pay_details %}
@@ -76,7 +122,7 @@
                             <div style="text-align: center;" class="box-footer">
                                 <a href="{% url 'pay_url' %}">
                                     <button class="btn btn-primary">
-                                        <form action="">Download LosD</form>
+                                        <form action="">Download Lost ID</form>
                                     </button>
                                 </a>
                             </div>
@@ -94,6 +140,7 @@
                             {% endif %}
                             {% else %}
                             <p style="color: red;text-align: center;">Nothing to show</p>
+                            {% endif %}
                             {% endif %}
                         </div><!-- /.table-responsive -->
                     </div><!-- /.box-body -->
