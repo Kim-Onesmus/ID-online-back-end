@@ -29,9 +29,9 @@
                                     <tr>
                                         <td><img style="width: 30px; height: 30px;border-radius: 50%;"
                                                 src="{{my_docs.first.client.profile_picture.url}}" alt=""></td>
-                                        {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
-                                        <td><span class="label label-success">Ready</span></td>
-                                        {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
+                                        {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' and pay_details %}
+                                        <td><span class="label label-success">Downloaded</span></td>
+                                        {% elif my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
                                         <td><span class="label label-success">Ready</span></td>
                                         {% elif my_docs.first.status == 'pending' or photo_info.status == 'pending' %}
                                         <td><span class="label label-warning">Being Processed</span></td>
@@ -114,6 +114,9 @@
                                 </tbody>
                             </table>
                             <br><br>
+                            {% if pay_details and lost_pay %}
+                            <p></p>
+                            {% else %}
                             {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
                             {% if pay_details %}
                             {% if lost_id.status != 'approved' %}
@@ -143,6 +146,7 @@
                             </div>
                             {% endif %}
                             {% else %}
+                            {% endif %}
                             {% endif %}
                             {% else %}
                             <p style="color: red;text-align: center;">Nothing to show</p>
