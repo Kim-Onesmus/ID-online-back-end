@@ -76,6 +76,7 @@ class IDCard(models.Model):
     id_number = models.PositiveIntegerField(unique=True)
     back_serial = models.CharField(max_length=12, unique=True)
     random_number = models.CharField(max_length=200, unique=True)
+    principal_sign = models.ImageField()
 
 
 class Contact(models.Model):
