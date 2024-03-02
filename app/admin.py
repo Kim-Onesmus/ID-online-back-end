@@ -32,6 +32,9 @@ class ConfirmationDocumentTable(admin.ModelAdmin):
 class PhotoTable(admin.ModelAdmin):
     list_display = ('client', 'image', 'status')
 
+@admin.register(IDCard)
+class IDcardTable(admin.ModelAdmin):
+    list_display = ('client', 'serial_number', 'id_number', 'back_serial', )
 
 @admin.register(Contact)
 class ContactTable(admin.ModelAdmin):
