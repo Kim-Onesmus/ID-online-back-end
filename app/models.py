@@ -70,6 +70,8 @@ class Photo(models.Model):
 
 class IDCard(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
     serial_number = models.PositiveIntegerField(max_digits1=10)
     id_number = models.PositiveIntegerField(max_digits=8)
     back_serial = models.CharField(max_length=12)
