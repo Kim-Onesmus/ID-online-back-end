@@ -68,6 +68,14 @@ class Photo(models.Model):
     reason = models.CharField(max_length=200, blank=True, null=True)
 
 
+class ID(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    serial_number = models.PositiveIntegerField(max_digits1=10)
+    id_number = models.PositiveIntegerField(max_digits=8)
+    back_serial = models.CharField(max_length=12)
+    random_number = models.CharField(max_length=200)
+
+
 class Contact(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
