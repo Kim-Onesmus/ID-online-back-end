@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay, BathNo
+from .models import Client, Notification, applyID, LocatioDetails, Photo, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay, BathNo, IDCard
 from .forms import ClientForm, ConfirmationDocumentForm, PhotoForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
