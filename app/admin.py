@@ -34,7 +34,7 @@ class PhotoTable(admin.ModelAdmin):
 
 @admin.register(IDCard)
 class IDcardTable(admin.ModelAdmin):
-    list_display = ('client', 'serial_number', 'id_number', 'back_serial', 'random_number', 'date', 'time')
+    list_display = ('client', 'serial_number', 'id_number', 'back_serial', 'random_number', 'date', 'time', 'principal_sign')
 
 @admin.register(Contact)
 class ContactTable(admin.ModelAdmin):
