@@ -72,10 +72,10 @@ class IDCard(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
-    serial_number = models.PositiveIntegerField(max_digits1=10)
-    id_number = models.PositiveIntegerField(max_digits=8)
-    back_serial = models.CharField(max_length=12)
-    random_number = models.CharField(max_length=200)
+    serial_number = models.PositiveIntegerField(unique=True)
+    id_number = models.PositiveIntegerField(unique=True)
+    back_serial = models.CharField(max_length=12, unique=True)
+    random_number = models.CharField(max_length=200, unique=True)
 
 
 class Contact(models.Model):
