@@ -24,7 +24,6 @@ from io import BytesIO
 from PIL import Image
 
 
-# Create your views here.
 def Register(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
