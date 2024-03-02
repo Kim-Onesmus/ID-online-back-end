@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay, BathNo
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay, BathNo, IDCard
 # Register your models here.,
 
 @admin.register(Client)

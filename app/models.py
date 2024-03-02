@@ -68,7 +68,7 @@ class Photo(models.Model):
     reason = models.CharField(max_length=200, blank=True, null=True)
 
 
-class ID(models.Model):
+class IDCard(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     serial_number = models.PositiveIntegerField(max_digits1=10)
     id_number = models.PositiveIntegerField(max_digits=8)
