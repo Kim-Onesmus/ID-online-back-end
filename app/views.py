@@ -412,7 +412,12 @@ def LostID(request):
     return render(request, 'app/lost_id.html', context)
  
 def MyIDView(request):
-    return render(request, 'app/my_id.html')
+    client = request.user.client
+    is_details = IDCard.objects.filter(client=client).first()
+
+
+    context = {'id_details':id_details}
+    return render(request, 'app/my_id.html', context)
 
 def AboutUs(request):
     return render(request, 'app/aboutUs.html')
