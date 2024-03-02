@@ -2,7 +2,12 @@
 {% load static %}
 {% block content %}
 <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-<!-- Right side column. Contains the navbar and content of the page -->
+<style>
+    .break-word {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -198,7 +203,7 @@
                             <div class="box-header danger">
                                 <div class="col-md-12">
                                     <h3 style="color: green;" class="box-title text-bold">
-                                        <span style="word-wrap: break-word;">{{i.random_number}}</span>
+                                        <span class="break-word">{{i.random_number}}</span>
                                     </h3>
                                 </div>
                             </div>
