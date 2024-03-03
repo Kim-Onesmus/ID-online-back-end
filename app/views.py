@@ -99,7 +99,7 @@ def BirthNo(request):
 
         if BathNo.objects.filter(birth_no=birth_no).exists():
             return redirect('birth_no')
-        elif BirthNo.objects.filter(client=client).exists():
+        elif BathNo.objects.filter(client=client).exists():
             return redirect('birth_no')
 
         else:
