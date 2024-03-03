@@ -82,6 +82,9 @@ def Index(request):
     context = {'notes':notes, 'apply_info':apply_info}
     return render(request, 'app/index.html', context)
 
+def BirthNo(request):
+    return render(request, 'app/birth_no.html')
+
 def Apply_ID(request):
     client = request.user.client
     apply_info = applyID.objects.filter(client=client).first()
