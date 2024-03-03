@@ -26,6 +26,10 @@ class Notification(models.Model):
     sender = models.CharField(max_length=100)
     messange = models.CharField(max_length=1000)
 
+class BathNo(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    birth_no = models.PositiveIntegerField()
+
 
 class applyID(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
