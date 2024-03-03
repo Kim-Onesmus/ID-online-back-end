@@ -93,8 +93,21 @@ def BirthNo(request):
 
     if birth:
         return redirect(apply_id)
+    if request.method == 'POST':
+        birth_no = request.POST['birth_no']
+        client=client
 
-    context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
+        if BathNo.objects.filter(birth_no=birth_no).exists():
+            return redirect('birth_no')
+        elif BirthNo.objects.filter(client=client).exists():
+            return redirect('birth_no')
+
+        else:
+            birht_details = BathNo.objects.create(client=client, birth_no=birth_no)
+            birht_details.save()
+            return redirect('apply_id')
+
+    context = {'birth':birth, 'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
     return render(request, 'app/birth_no.html', context)
 
 def Apply_ID(request):
