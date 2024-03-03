@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay
+from . models import Client, Notification, applyID, LocatioDetails, ConfirmationDocument, Photo, Contact, Pay, LostId, LostPay, BathNo
 # Register your models here.,
 
 @admin.register(Client)
@@ -11,6 +11,10 @@ class ClientTable(admin.ModelAdmin):
 class NotificationTable(admin.ModelAdmin):
     list_display = ('date', 'time', 'sender', 'messange')
 
+
+@admin.register(BathNo)
+class BathNoTable(admin.ModelAdmin):
+    list_display = ('client', 'birth_no')
 
 @admin.register(applyID)
 class applyIDTable(admin.ModelAdmin):
