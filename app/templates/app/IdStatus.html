@@ -16,7 +16,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
-                            {% if my_docs and photo_info %}
+
                             <table class="table no-margin">
                                 <thead>
                                     <tr>
@@ -63,6 +63,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            {% endif %}
                             {% if lost_id %}
                             <table class="table no-margin">
                                 <thead>
@@ -113,6 +114,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            {% endif %}
                             <br><br>
                             {% if pay_details and lost_pay %}
                                 <p></p>
