@@ -92,7 +92,7 @@ def BirthNo(request):
     my_docs = ConfirmationDocument.objects.filter(client=client).first()
 
     if birth:
-        return redirect(apply_id)
+        return redirect('apply_id')
     if request.method == 'POST':
         birth_no = request.POST['birth_no']
         client=client
