@@ -45,7 +45,7 @@
                     </div>
                 </form>
             </div>
-            {% if photo_info.status == 'approved' and my_docs.status == 'approved' %}
+            {% elif photo_info.status == 'approved' and my_docs.status == 'approved' %}
             <div class="box-body d-flex flex-column align-items-center">
                 <form class="w-50">
                     <div class="box-body">
@@ -60,14 +60,12 @@
                 </form>
             </div>
             {% else %}
-            {% endif %}
-            {% else %}
             <div class="col-md-8">
                 <!-- general form elements disabled -->
                 <div class="box box-primary">
                     <div class="box-header text-center danger">
-                        <h3 style="color: red;" class="box-title text-bold">Step 1 of 4</h3><br>
-                        <span style="color: dodgerblue;">Confirm user info</span>
+                        <h3 style="color: red;" class="box-title text-bold">Step 1 of 5</h3><br>
+                        <span style="color: dodgerblue;">Birth Certificate Number</span>
                         {% for data in messages %}
                         {{data}}
                         {% endfor %}
@@ -77,8 +75,8 @@
                             {% csrf_token %}
                             <div class="box-body">
                                 <div class="form-group col-md-12">
-                                    <label for="exampleInputPassword1">Date of Birth</label>
-                                    <input type="date" class="form-control" name="date_of_birth" required>
+                                    <label class="text-center" for="exampleInputPassword1">Date of Birth</label>
+                                    <input type="number" maxlength="7" minlength="7" class="form-control" name="birth_no" required>
                                 </div>
                             </div>
 
