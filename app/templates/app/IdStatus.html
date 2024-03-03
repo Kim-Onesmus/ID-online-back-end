@@ -115,38 +115,39 @@
                             </table>
                             <br><br>
                             {% if pay_details and lost_pay %}
-                            <p></p>
+                                <p></p>
                             {% else %}
-                            {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
-                            {% if pay_details %}
-                            {% if lost_id.status != 'approved' %}
-                            <div style="text-align: center;" class="box-footer">
-                                <a href="{% url 'lost_id' %}">
-                                    <button class="btn btn-primary">
-                                        <form action="">Lost ID</form>
-                                    </button>
-                                </a>
-                            </div>
-                            {% else %}
-                            <div style="text-align: center;" class="box-footer">
-                                <a href="{% url 'lostpay_url' %}">
-                                    <button class="btn btn-primary">
-                                        <form action="">Download Lost ID</form>
-                                    </button>
-                                </a>
-                            </div>
-                            {% endif %}
-                            {% else %}
-                            <div style="text-align: center;" class="box-footer">
-                                <a href="{% url 'pay_url' %}">
-                                    <button class="btn btn-primary">
-                                        <form action="">Download ID</form>
-                                    </button>
-                                </a>
-                            </div>
-                            {% endif %}
-                            {% else %}
-                            {% endif %}
+                                {% if my_docs.first.status == 'approved' and photo_info.status == 'approved' %}
+                                    {% if pay_details %}
+                                        {% if lost_id.status != 'approved' %}
+                                        <div style="text-align: center;" class="box-footer">
+                                            <a href="{% url 'lost_id' %}">
+                                                <button class="btn btn-primary">
+                                                    <form action="">Lost ID</form>
+                                                </button>
+                                            </a>
+                                        </div>
+                                        {% else %}
+                                        <div style="text-align: center;" class="box-footer">
+                                            <a href="{% url 'lostpay_url' %}">
+                                                <button class="btn btn-primary">
+                                                    <form action="">Download Lost ID</form>
+                                                </button>
+                                            </a>
+                                        </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div style="text-align: center;" class="box-footer">
+                                            <a href="{% url 'pay_url' %}">
+                                                <button class="btn btn-primary">
+                                                    <form action="">Download ID</form>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                
+                                {% endif %}
                             {% endif %}
                             {% else %}
                             <p style="color: red;text-align: center;">Nothing to show</p>
