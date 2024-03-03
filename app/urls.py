@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.Register, name='register'),
     path('login', views.Login, name='login'),
     path('index', views.Index, name='index'),
+    path('birth_no', views.BirthNo, name='birth_no'),
     path('apply_id', views.Apply_ID, name='apply_id'),
     path('applyIdDone', views.ApplyIdDone, name='applyIdDone'),
     path('location', views.LocationData, name='location'),
