@@ -182,14 +182,20 @@ def TakePhoto(request):
 
 
 
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 @csrf_exempt
 def savePhoto(request):
     if request.method == 'POST':
         try:
             image_data = request.FILES.get('image')
-            print('Image data', image_data)
+
+            if not image_data:
+                return JsonResponse({'status': 'error', 'message': 'No image data received'})
+
             uploaded_file = SimpleUploadedFile('image.jpg', image_data.read())
             form = PhotoForm({'image': uploaded_file})
+
             if form.is_valid():
                 photo = form.save(commit=False)
                 photo.client = request.user.client
@@ -198,12 +204,13 @@ def savePhoto(request):
 
                 return JsonResponse({'status': 'success', 'photo_id': photo.id})
 
+            return JsonResponse({'status': 'error', 'message': 'Form is not valid'})
+
         except Exception as e:
             print(f"Error: {e}")
             return JsonResponse({'status': 'error', 'message': 'Failed to save photo'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
 
 
 def ApplyIdDone(request):
