@@ -84,7 +84,7 @@
                         <!-- <button id="startCamera" class="btn btn-primary">Start Camera</button> -->
                         <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
                         <span>OR</span>
-                        <form action="" method="post" >
+                        <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div style="text-align: center;">
                                 {{form.image}}
