@@ -187,6 +187,7 @@ def savePhoto(request):
     if request.method == 'POST':
         try:
             image_data = request.FILES.get('image')
+            print('Image data', image_data)
             uploaded_file = SimpleUploadedFile('image.jpg', image_data.read())
             form = PhotoForm({'image': uploaded_file})
             if form.is_valid():
