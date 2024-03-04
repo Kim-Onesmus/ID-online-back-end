@@ -84,11 +84,11 @@
                         <!-- <button id="startCamera" class="btn btn-primary">Start Camera</button> -->
                         <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
                         <form action="" method="post">
-
+                            {% csrf_token %}
                             <div>
                                 {{form.image}}
                             </div>
-                            <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                     </form>
