@@ -188,7 +188,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 def savePhoto(request):
     if request.method == 'POST':
         try:
-            image_data = request.FILES.get('image')
+            image_data = request.FILES['image']
             print('Image data', image_data)
 
             if not image_data:
