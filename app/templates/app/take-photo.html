@@ -83,9 +83,10 @@
                     <div style="text-align: center;" class="box-footer">
                         <!-- <button id="startCamera" class="btn btn-primary">Start Camera</button> -->
                         <button id="openCameraButton" class="btn btn-primary">Open Camera</button>
+                        <span>OR</span>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <div>
+                            <div style="text-align: center;">
                                 {{form.image}}
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
