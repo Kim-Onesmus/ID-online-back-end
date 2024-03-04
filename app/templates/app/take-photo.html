@@ -99,56 +99,59 @@
 </section>
 <!-- Add this script in your HTML template -->
 <script>
-    let video = document.getElementById('video');
-    let canvas = document.getElementById('canvas');
-    let openCameraButton = document.getElementById('openCameraButton');
-    let captureButton = document.getElementById('captureButton');
-    let stream;
+    document.addEventListener("DOMContentLoaded", function () {
 
-    openCameraButton.onclick = function () {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function (streamObj) {
-                    stream = streamObj;
-                    video.srcObject = streamObj;
-                    captureButton.style.display = 'block';
-                    openCameraButton.style.display = 'none';
+        let video = document.getElementById('video');
+        let canvas = document.getElementById('canvas');
+        let openCameraButton = document.getElementById('openCameraButton');
+        let captureButton = document.getElementById('captureButton');
+        let stream;
 
-                    const context = canvas.getContext('2d');
+        openCameraButton.onclick = function () {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (streamObj) {
+                        stream = streamObj;
+                        video.srcObject = streamObj;
+                        captureButton.style.display = 'block';
+                        openCameraButton.style.display = 'none';
 
-                    captureButton.onclick = function () {
-                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        const context = canvas.getContext('2d');
 
-                        canvas.toBlob(function (blob) {
-                            const formData = new FormData();
-                            formData.append('image', blob, 'image.jpg');
+                        captureButton.onclick = function () {
+                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                            fetch('/save_photo/', {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    'X-CSRFToken': '{{ csrf_token }}',
-                                },
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log(data);
+                            canvas.toBlob(function (blob) {
+                                const formData = new FormData();
+                                formData.append('image', blob, 'image.jpg');
+
+                                fetch('/save_photo/', {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'X-CSRFToken': '{{ csrf_token }}',
+                                    },
                                 })
-                                .catch(error => console.error(error));
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data);
+                                    })
+                                    .catch(error => console.error(error));
 
-                            stream.getTracks().forEach(track => track.stop());
-                            video.style.display = 'none';
-                            canvas.style.display = 'none';
-                            openCameraButton.style.display = 'block';
-                        }, 'image/jpeg');
-                    };
-                })
-                .catch(function (error) {
-                    console.error('Error accessing the camera:', error);
-                });
-        } else {
-            console.error('getUserMedia is not supported in this browser');
-        }
-    };
+                                stream.getTracks().forEach(track => track.stop());
+                                video.style.display = 'none';
+                                canvas.style.display = 'none';
+                                openCameraButton.style.display = 'block';
+                            }, 'image/jpeg');
+                        };
+                    })
+                    .catch(function (error) {
+                        console.error('Error accessing the camera:', error);
+                    });
+            } else {
+                console.error('getUserMedia is not supported in this browser');
+            }
+        };
+    });
 </script>
 {% endblock content %}
