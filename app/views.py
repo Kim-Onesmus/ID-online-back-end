@@ -11,6 +11,8 @@ from datetime import datetime, date
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.mail import send_mail
 from django.conf import settings
 import json
@@ -181,21 +183,11 @@ def TakePhoto(request):
     return redirect('applyIdDone')
 
 
-
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.files.uploadedfile import InMemoryUploadedFile
 @csrf_exempt
 def savePhoto(request):
     if request.method == 'POST':
         try:
-            image_data = request.FILES.get('image')
-            print('Image data', image_data)
-
-            if not image_data:
-                return JsonResponse({'status': 'error', 'message': 'No image data received'})
-
-            # Instead of using SimpleUploadedFile, pass the image_data directly to the form
-            form = PhotoForm({'image': image_data})
+            form = PhotoForm(request.POST, request.FILES)
 
             if form.is_valid():
                 print(form.cleaned_data)
@@ -203,7 +195,8 @@ def savePhoto(request):
                 photo.client = request.user.client
                 photo.status = 'pending'
                 photo.save()
-
+                
+                return redirect('id_status')
                 return JsonResponse({'status': 'success', 'photo_id': photo.id})
             else:
                 print(form.errors)
@@ -214,7 +207,6 @@ def savePhoto(request):
             return JsonResponse({'status': 'error', 'message': 'Failed to save photo'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
 
 
 def ApplyIdDone(request):
