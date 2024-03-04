@@ -174,7 +174,9 @@ def TakePhoto(request):
                 photo.client = request.user.client
                 photo.status = 'pending'
                 photo.save()
-        return render(request, 'app/take-photo.html')
+
+        context = {'form':form}
+        return render(request, 'app/take-photo.html', context)
     return redirect('applyIdDone')
 
 
