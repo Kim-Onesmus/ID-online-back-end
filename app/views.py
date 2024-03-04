@@ -198,6 +198,7 @@ def savePhoto(request):
             form = PhotoForm({'image': uploaded_file})
 
             if form.is_valid():
+                print(form.cleaned_data)
                 photo = form.save(commit=False)
                 photo.client = request.user.client
                 photo.status = 'pending'
