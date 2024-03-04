@@ -165,9 +165,42 @@ def ConfirmationDocuments(request):
 def TakePhoto(request):
     client = request.user.client
     photo_info = Photo.objects.filter(client=client).first()
+    form = PhotoForm()
     if not photo_info:
+        if request.method == 'POST':
+            form = PhotoForm(request.POST, request.FILES)
+            if form.is_valid():
+                photo = form.save(commit=False)
+                photo.client = request.user.client
+                photo.status = 'pending'
+                photo.save()
         return render(request, 'app/take-photo.html')
     return redirect('applyIdDone')
+
+
+
+@csrf_exempt
+def savePhoto(request):
+    if request.method == 'POST':
+        try:
+            image_data = request.FILES.get('image')
+            uploaded_file = SimpleUploadedFile('image.jpg', image_data.read())
+            form = PhotoForm({'image': uploaded_file})
+            if form.is_valid():
+                photo = form.save(commit=False)
+                photo.client = request.user.client
+                photo.status = 'pending'
+                photo.save()
+
+                return JsonResponse({'status': 'success', 'photo_id': photo.id})
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return JsonResponse({'status': 'error', 'message': 'Failed to save photo'})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
 
 def ApplyIdDone(request):
     client = request.user.client
@@ -179,32 +212,6 @@ def ApplyIdDone(request):
 
     context = {'apply_info':apply_info, 'location_info':location_info, 'doc_info':doc_info, 'photo_info':photo_info, 'my_docs':my_docs}
     return render(request, 'app/ApplyIdDone.html', context)
-
-
-@csrf_exempt
-def savePhoto(request):
-    if request.method == 'POST':
-        try:
-            image_data = request.FILES.get('image')
-
-            # You can use SimpleUploadedFile to create a Django UploadedFile instance
-            uploaded_file = SimpleUploadedFile('image.jpg', image_data.read())
-
-            form = PhotoForm({'image': uploaded_file})
-
-            if form.is_valid():
-                photo = form.save(commit=False)
-                photo.client = request.user.client  # Assuming you have authentication in place
-                photo.status = 'pending'
-                photo.save()
-
-                return JsonResponse({'status': 'success', 'photo_id': photo.id})
-
-        except Exception as e:
-            print(f"Error: {e}")
-            return JsonResponse({'status': 'error', 'message': 'Failed to save photo'})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
 def MyDocuments(request):
