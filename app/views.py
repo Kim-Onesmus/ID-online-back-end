@@ -204,8 +204,9 @@ def savePhoto(request):
                 photo.save()
 
                 return JsonResponse({'status': 'success', 'photo_id': photo.id})
-
-            return JsonResponse({'status': 'error', 'message': 'Form is not valid'})
+            else:
+                print(form.errors)
+                return JsonResponse({'status': 'error', 'message': 'Form is not valid'})
 
         except Exception as e:
             print(f"Error: {e}")
