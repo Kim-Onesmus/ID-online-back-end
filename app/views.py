@@ -189,6 +189,7 @@ def savePhoto(request):
     if request.method == 'POST':
         try:
             image_data = request.FILES.get('image')
+            print('Image data', image_data)
 
             if not image_data:
                 return JsonResponse({'status': 'error', 'message': 'No image data received'})
