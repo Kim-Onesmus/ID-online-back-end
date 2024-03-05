@@ -21,7 +21,7 @@
         </ol>
     </section>
 
-    
+    <span class="page">
     <span class="content">
         <section class="content">
             <div class="row">
@@ -214,5 +214,29 @@
             </div>
         </section>
     </span>
+    </span>
 </div>
+<script>
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        // Ensure jsPDF is available globally
+        var jsPDF = window.jspdf.jsPDF;
+
+        var section = document.querySelector('.page');
+
+        // Use html2canvas to render the section to an image
+        html2canvas(section).then(function (canvas) {
+            // Convert the canvas to data URL
+            var imgData = canvas.toDataURL('image/png');
+
+            // Create a new jsPDF instance
+            var pdf = new jsPDF();
+
+            // Add the image to the PDF
+            pdf.addImage(imgData, 'PNG', 0, 0);
+
+            // Save the PDF with a desired file name
+            pdf.save('downloaded_section.pdf');
+        });
+    });
+</script>
 {% endblock content %}
