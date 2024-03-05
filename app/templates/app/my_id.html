@@ -24,20 +24,135 @@
         </ol>
     </section>
 
-    <span class="content">
-        <section class="content">
-            <div class="row">
-                <div class="col-md-12">
+    <section class="page">
+        <span class="content">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <!-- general form elements -->
+                            <div class="">
+                                <!-- form start -->
+                                <form role="form">
+                                    <div class="box-body">
+                                        <div style="text-align: center;" class="form-group">
+                                            <!-- <img style="width: 200px; height: 200px; border-radius: 50%;"
+                                            src="dist/img/user2-160x160.jpg" class="user-image" /> -->
+                                            <button id="downloadButton">Download Section</button>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </form>
+                            </div><!-- /.box -->
+                        </div>
+                        <div class="col-md-8">
+                            <div style="background-image: url('static/flg.png'); background-repeat: no-repeat;background-size: cover;background-color: rgba(255,255,255,0.6);background-blend-mode: lighten;"
+                                class="box">
+                                <div class="row">
+                                    <div class="box-header danger">
+                                        <div class="col-md-4">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                JAMHURI YA KENYA
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h3 style="color: red;text-align: center;" class="box-title text-bold">
+                                                <img style="width: 50px; height: 50px;" src="{% static 'rep.png' %}"
+                                                    alt="">
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h3 style="color: green" class="box-title text-bold">
+                                                REPUBLIC OF KENYA
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="box-header danger">
+                                        <div class="col-md-6">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                <small style="color: green;">SERIAL NUMBER: </small></small><span
+                                                    style="color: black;">{{i.serial_number}}</span>
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 style="color: green" class="box-title text-bold">
+                                                <small style="color: green;">ID NUMBER: </small><span
+                                                    style="color: black;">{{i.id_number}}</span>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="box-header danger">
+                                        <div class="col-md-12">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                <small style="color: green;">FULL NAMES</small><br><span
+                                                    style="color: black;text-transform: capitalize;">{{i.client.first_name}}
+                                                    {{i.client.sur_name}} {{i.client.last_name}}</span>
+                                            </h3>
+                                        </div>
+                                        <br>
+                                        <div class="col-md-4">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                <img style="width: 190px; height: 230px;"
+                                                    src="{{i.client.photo.image.url}}" alt="">
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h3 style="color: green; height: 70px;" class="box-title text-bold">
+                                                <small style="color: green;">
+                                                    DATE OF BIRTH <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold">{{i.client.applyid.date_of_birth}}</span><br>
+                                                    SEX <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold">{{i.client.gender}}</span><br>
+                                                    DISTICT OF BIRTH <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold">{{i.client.locatiodetails.district}}</span><br>
+                                                    NEAREST PLACE <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold">{{i.client.locatiodetails.location}}</span><br>
+                                                    DATE OF ISSUE <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold">{{i.date}}</span><br><br>
+                                                    HOLDERS SIGN <br>
+                                                    <span style="color: black;"
+                                                        class="text-bold"><strike>OKM</strike></span><br>
+                                                </small>
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                <img style="width: 80px; height: 80px;" src="{% static 'gk.png' %}"
+                                                    alt="">
+                                            </h3>
+                                        </div>
+                                        <br><br>
+                                        <div class="col-md-3">
+                                            <h3 style="color: green;" class="box-title text-bold">
+                                                <br><br><br><br><br>
+                                                <img style="width: 50px; height: 50px;"
+                                                    src="{{i.client.photo.image.url}}" alt="">
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="row">
                     <div class="col-md-2">
-                        <!-- general form elements -->
                         <div class="">
-                            <!-- form start -->
                             <form role="form">
                                 <div class="box-body">
                                     <div style="text-align: center;" class="form-group">
                                         <!-- <img style="width: 200px; height: 200px; border-radius: 50%;"
-                                            src="dist/img/user2-160x160.jpg" class="user-image" /> -->
-                                            <button id="downloadButton">Download Section</button>
+                                                src="dist/img/user2-160x160.jpg" class="user-image" /> -->
                                     </div>
                                 </div><!-- /.box-body -->
                             </form>
@@ -48,82 +163,67 @@
                             class="box">
                             <div class="row">
                                 <div class="box-header danger">
-                                    <div class="col-md-4">
-                                        <h3 style="color: green;" class="box-title text-bold">
-                                            JAMHURI YA KENYA
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h3 style="color: red;text-align: center;" class="box-title text-bold">
-                                            <img style="width: 50px; height: 50px;" src="{% static 'rep.png' %}" alt="">
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h3 style="color: green" class="box-title text-bold">
-                                            REPUBLIC OF KENYA
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="box-header danger">
-                                    <div class="col-md-6">
-                                        <h3 style="color: green;" class="box-title text-bold">
-                                            <small style="color: green;">SERIAL NUMBER: </small></small><span
-                                                style="color: black;">{{i.serial_number}}</span>
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h3 style="color: green" class="box-title text-bold">
-                                            <small style="color: green;">ID NUMBER: </small><span
-                                                style="color: black;">{{i.id_number}}</span>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="box-header danger">
                                     <div class="col-md-12">
                                         <h3 style="color: green;" class="box-title text-bold">
-                                            <small style="color: green;">FULL NAMES</small><br><span
-                                                style="color: black;text-transform: capitalize;">{{i.client.first_name}} {{i.client.sur_name}} {{i.client.last_name}}</span>
-                                        </h3>
-                                    </div>
-                                    <br>
-                                    <div class="col-md-4">
-                                        <h3 style="color: green;" class="box-title text-bold">
-                                            <img style="width: 190px; height: 230px;" src="{{i.client.photo.image.url}}"
-                                                alt="">
+
                                         </h3>
                                     </div>
                                     <div class="col-md-4">
                                         <h3 style="color: green; height: 70px;" class="box-title text-bold">
                                             <small style="color: green;">
-                                                DATE OF BIRTH <br>
-                                                <span style="color: black;" class="text-bold">{{i.client.applyid.date_of_birth}}</span><br>
-                                                SEX <br>
-                                                <span style="color: black;" class="text-bold">{{i.client.gender}}</span><br>
-                                                DISTICT OF BIRTH <br>
-                                                <span style="color: black;" class="text-bold">{{i.client.locatiodetails.district}}</span><br>
-                                                NEAREST PLACE <br>
-                                                <span style="color: black;" class="text-bold">{{i.client.locatiodetails.location}}</span><br>
-                                                DATE OF ISSUE <br>
-                                                <span style="color: black;" class="text-bold">{{i.date}}</span><br><br>
-                                                HOLDERS SIGN <br>
-                                                <span style="color: black;" class="text-bold"><strike>OKM</strike></span><br>
+                                                DISTRICT <br>
+                                                <span style="color: black;"
+                                                    class="text-bold">{{i.client.locatiodetails.district}}</span><br>
+                                                DIVISION <br>
+                                                <span style="color: black;"
+                                                    class="text-bold">{{i.client.locatiodetails.division}}</span><br>
+                                                LOCATION <br>
+                                                <span style="color: black;"
+                                                    class="text-bold">{{i.client.locatiodetails.location}}</span><br>
+                                                SUB-LOCATION <br>
+                                                <span style="color: black;"
+                                                    class="text-bold">{{i.client.locatiodetails.sub_location}}</span><br>
                                             </small>
                                         </h3>
                                     </div>
-                                    <div class="col-md-2">
-                                        <h3 style="color: green;" class="box-title text-bold">
-                                            <img style="width: 80px; height: 80px;" src="{% static 'gk.png' %}" alt="">
+                                    <div style="background-image: url('static/kenya.png'); width: 100px; height: 100px; background-repeat: no-repeat;background-size: cover;background-color: rgba(255,255,255,0.6);background-blend-mode: lighten;"
+                                        class="col-md-4">
+                                        <h3 class="box-title text-bold">
+                                            <img style="width: 70px; height: 70px;" src="{{i.client.photo.image.url}}"
+                                                alt="">
                                         </h3>
                                     </div>
-                                    <br><br>
-                                    <div class="col-md-3">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="box-header danger">
+                                    <div class="col-md-4">
                                         <h3 style="color: green;" class="box-title text-bold">
-                                            <br><br><br><br><br>
-                                            <img style="width: 50px; height: 50px;" src="{{i.client.photo.image.url}}" alt="">
+                                            <small style="color: green;">PRINCIPAL REGISTRARS SIGN </small></small><span
+                                                style="color: black;"></span>
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h3 style="color: green" class="box-title text-bold">
+                                            <small style="color: green;">
+                                                <img style="width: 60px; height: 30px;" src="{{i.principal_sign.url}}"
+                                                    alt="">
+                                            </small><span style="color: black;"></span>
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h3 style="color: green" class="box-title text-bold">
+                                            <span style="color: black;">{{i.back_serial}}</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="box-header danger">
+                                    <div class="col-md-12">
+                                        <h3 style="color: green;" class="box-title text-bold">
+                                            <span class="break-word">{{i.random_number}}</span>
                                         </h3>
                                     </div>
                                 </div>
@@ -131,99 +231,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="content">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="">
-                        <form role="form">
-                            <div class="box-body">
-                                <div style="text-align: center;" class="form-group">
-                                    <!-- <img style="width: 200px; height: 200px; border-radius: 50%;"
-                                                src="dist/img/user2-160x160.jpg" class="user-image" /> -->
-                                </div>
-                            </div><!-- /.box-body -->
-                        </form>
-                    </div><!-- /.box -->
-                </div>
-                <div class="col-md-8">
-                    <div style="background-image: url('static/flg.png'); background-repeat: no-repeat;background-size: cover;background-color: rgba(255,255,255,0.6);background-blend-mode: lighten;"
-                        class="box">
-                        <div class="row">
-                            <div class="box-header danger">
-                                <div class="col-md-12">
-                                    <h3 style="color: green;" class="box-title text-bold">
-
-                                    </h3>
-                                </div>
-                                <div class="col-md-4">
-                                    <h3 style="color: green; height: 70px;" class="box-title text-bold">
-                                        <small style="color: green;">
-                                            DISTRICT <br>
-                                            <span style="color: black;" class="text-bold">{{i.client.locatiodetails.district}}</span><br>
-                                            DIVISION <br>
-                                            <span style="color: black;" class="text-bold">{{i.client.locatiodetails.division}}</span><br>
-                                            LOCATION <br>
-                                            <span style="color: black;" class="text-bold">{{i.client.locatiodetails.location}}</span><br>
-                                            SUB-LOCATION <br>
-                                            <span style="color: black;" class="text-bold">{{i.client.locatiodetails.sub_location}}</span><br>
-                                        </small>
-                                    </h3>
-                                </div>
-                                <div style="background-image: url('static/kenya.png'); width: 100px; height: 100px; background-repeat: no-repeat;background-size: cover;background-color: rgba(255,255,255,0.6);background-blend-mode: lighten;"
-                                    class="col-md-4">
-                                    <h3 class="box-title text-bold">
-                                        <img style="width: 70px; height: 70px;" src="{{i.client.photo.image.url}}" alt="">
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="box-header danger">
-                                <div class="col-md-4">
-                                    <h3 style="color: green;" class="box-title text-bold">
-                                        <small style="color: green;">PRINCIPAL REGISTRARS SIGN </small></small><span
-                                            style="color: black;"></span>
-                                    </h3>
-                                </div>
-                                <div class="col-md-4">
-                                    <h3 style="color: green" class="box-title text-bold">
-                                        <small style="color: green;">
-                                        <img style="width: 60px; height: 30px;" src="{{i.principal_sign.url}}" alt="">
-                                        </small><span
-                                            style="color: black;"></span>
-                                    </h3>
-                                </div>
-                                <div class="col-md-4">
-                                    <h3 style="color: green" class="box-title text-bold">
-                                        <span style="color: black;">{{i.back_serial}}</span>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="box-header danger">
-                                <div class="col-md-12">
-                                    <h3 style="color: green;" class="box-title text-bold">
-                                        <span class="break-word">{{i.random_number}}</span>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </span>
+            </section>
+        </span>
+    </section>
 </div>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
         // Ensure jsPDF is available globally
         var jsPDF = window.jspdf.jsPDF;
 
-        var section = document.querySelector('.content');
+        var section = document.querySelector('.page');
 
         // Use html2canvas to render the section to an image
         html2canvas(section).then(function (canvas) {
@@ -236,12 +253,8 @@
             // Add the image to the PDF
             pdf.addImage(imgData, 'PNG', 0, 0);
 
-            // Save the PDF with a desired file name using blob
-            var blob = pdf.output('blob');
-            var link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'downloaded_section.pdf';
-            link.click();
+            // Save the PDF with a desired file name
+            pdf.save('downloaded_section.pdf');
         });
     });
 </script>
