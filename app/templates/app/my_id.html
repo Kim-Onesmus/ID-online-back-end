@@ -235,20 +235,20 @@
         var jsPDF = window.jspdf.jsPDF;
         var section = document.querySelector('.page');
         var originalWidth = section.offsetWidth;
-        var newWidth = originalWidth * 1;
-        section.style.width = newWidth + 'px';
+        var originalHeight = section.offsetHeight;
+        var scaleWidth = 1.5;
+        var scaleHeight = 1.5;
+        section.style.width = originalWidth * scaleWidth + 'px';
+        section.style.height = originalHeight * scaleHeight + 'px';
+
         html2canvas(section).then(function (canvas) {
             var imgData = canvas.toDataURL('image/png');
             var pdf = new jsPDF('p', 'mm', 'a4');
             pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
-
-            // Save the PDF with a desired file name
             pdf.save('downloaded_section.pdf');
-
-            // Restore the original width
             section.style.width = originalWidth + 'px';
+            section.style.height = originalHeight + 'px';
         });
     });
 </script>
-
 {% endblock content %}
