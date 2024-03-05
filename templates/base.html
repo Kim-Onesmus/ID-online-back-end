@@ -5,6 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>ID Online</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
     <script src="https://docs.opencv.org/master/opencv.js" crossorigin="anonymous"></script>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
@@ -100,7 +105,8 @@
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         </a>
                     </li>
-                    {% if request.user.client.applyid and request.user.client.locatiodetails and request.user.client.confirmationdocument and request.user.client.photo %}
+                    {% if request.user.client.applyid and request.user.client.locatiodetails and
+                    request.user.client.confirmationdocument and request.user.client.photo %}
                     <li class="treeview">
                         <a href="{% url 'applyIdDone' %}">
                             <i class="fa fa-files-o"></i>
