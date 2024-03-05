@@ -4,6 +4,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 </head>
 <style>
@@ -295,18 +296,13 @@
         // Get the HTML content of the section
         var sectionHtml = document.querySelector('.page').outerHTML;
 
-        // Create a Blob with the HTML content
-        var blob = new Blob([sectionHtml], { type: 'text/html' });
-
-        // Convert HTML to PDF using html2pdf.js
-        html2pdf(blob, {
-            margin: 10,
+        // Convert the HTML to PDF using html2pdf
+        html2pdf(sectionHtml, {
+            margin: 15,
             filename: 'downloaded_section.pdf',
-            html2canvas: { scale: 2 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         });
     });
 </script>
-
 
 </html>
