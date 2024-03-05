@@ -294,16 +294,13 @@
 </body>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
-        // Get the HTML content of the section
-        var sectionHtml = document.querySelector('.page').outerHTML;
-
-        // Convert the HTML to PDF using html2pdf
-        html2pdf(sectionHtml, {
-            margin: 15,
-            filename: 'downloaded_section.pdf',
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        var section = document.querySelector('.page');
+        html2canvas(section).then(function (canvas) {
+            var imgData = canvas.toDataURL('image/png');
+            var pdf = new jsPDF();
+            pdf.addImage(imgData, 'PNG', 0, 0);
+            pdf.save('downloaded_section.pdf');
         });
     });
 </script>
-
 </html>
