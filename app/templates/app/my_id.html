@@ -237,10 +237,17 @@
 
         var section = document.querySelector('.page');
 
+        // Get the current width of the section
+        var originalWidth = section.offsetWidth;
+
+        // Set the desired width (you can adjust this value)
+        var newWidth = originalWidth * 2;
+
+        // Set the new width to the section
+        section.style.width = newWidth + 'px';
+
         // Use html2canvas to render the section to an image
-        html2canvas(section, {
-            scale: { x: 2, y: 1 }
-        }).then(function (canvas) {
+        html2canvas(section).then(function (canvas) {
             // Convert the canvas to data URL
             var imgData = canvas.toDataURL('image/png');
 
@@ -252,9 +259,11 @@
 
             // Save the PDF with a desired file name
             pdf.save('downloaded_section.pdf');
+
+            // Restore the original width
+            section.style.width = originalWidth + 'px';
         });
     });
 </script>
-
 
 {% endblock content %}
