@@ -232,29 +232,14 @@
 </div>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
-        // Ensure jsPDF is available globally
         var jsPDF = window.jspdf.jsPDF;
-
         var section = document.querySelector('.page');
-
-        // Get the current width of the section
         var originalWidth = section.offsetWidth;
-
-        // Set the desired width (you can adjust this value)
-        var newWidth = originalWidth * 2;
-
-        // Set the new width to the section
+        var newWidth = originalWidth * 1;
         section.style.width = newWidth + 'px';
-
-        // Use html2canvas to render the section to an image
         html2canvas(section).then(function (canvas) {
-            // Convert the canvas to data URL
             var imgData = canvas.toDataURL('image/png');
-
-            // Create a new jsPDF instance with 'a4' page size
             var pdf = new jsPDF('p', 'mm', 'a4');
-
-            // Add the image to the PDF
             pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
 
             // Save the PDF with a desired file name
