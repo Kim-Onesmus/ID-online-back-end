@@ -294,18 +294,27 @@
 </body>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
+        // Ensure jsPDF is available globally
+        var jsPDF = window.jspdf.jsPDF;
+
         var section = document.querySelector('.page');
 
-        // Create a new jsPDF instance
-        var pdf = new jsPDF();
-        html2pdf(section, {
-            margin: 15,
-            filename: 'downloaded_section.pdf',
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        // Use html2canvas to render the section to an image
+        html2canvas(section).then(function (canvas) {
+            // Convert the canvas to data URL
+            var imgData = canvas.toDataURL('image/png');
+
+            // Create a new jsPDF instance
+            var pdf = new jsPDF();
+
+            // Add the image to the PDF
+            pdf.addImage(imgData, 'PNG', 0, 0);
+
+            // Save the PDF with a desired file name
+            pdf.save('downloaded_section.pdf');
         });
     });
 </script>
-
 </html>
 
 <!-- <script>
