@@ -242,15 +242,16 @@
             // Convert the canvas to data URL
             var imgData = canvas.toDataURL('image/png');
 
-            // Create a new jsPDF instance
-            var pdf = new jsPDF();
+            // Create a new jsPDF instance with 'a4' page size
+            var pdf = new jsPDF('p', 'mm', 'a4');
 
             // Add the image to the PDF
-            pdf.addImage(imgData, 'PNG', 0, 0);
+            pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
 
             // Save the PDF with a desired file name
             pdf.save('downloaded_section.pdf');
         });
     });
 </script>
+
 {% endblock content %}
