@@ -223,7 +223,7 @@
         // Ensure jsPDF is available globally
         var jsPDF = window.jspdf.jsPDF;
 
-        var section = document.querySelector('.content');  // Update the selector to target the correct element
+        var section = document.querySelector('.content');
 
         // Use html2canvas to render the section to an image
         html2canvas(section).then(function (canvas) {
@@ -236,8 +236,12 @@
             // Add the image to the PDF
             pdf.addImage(imgData, 'PNG', 0, 0);
 
-            // Save the PDF with a desired file name
-            pdf.save('downloaded_section.pdf');
+            // Save the PDF with a desired file name using blob
+            var blob = pdf.output('blob');
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'downloaded_section.pdf';
+            link.click();
         });
     });
 </script>
