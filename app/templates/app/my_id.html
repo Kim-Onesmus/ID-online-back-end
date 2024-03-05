@@ -232,21 +232,21 @@
 </div>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
-        // Ensure jsPDF is available globally
-        var jsPDF = window.jspdf.jsPDF;
-
         var section = document.querySelector('.page');
 
-        // Use html2canvas to render the section to an image
-        html2canvas(section).then(function (canvas) {
+        // Specify width and height to match the content size
+        var width = section.offsetWidth;
+        var height = section.offsetHeight;
+
+        html2canvas(section, { width: width, height: height }).then(canvas => {
             // Convert the canvas to data URL
             var imgData = canvas.toDataURL('image/png');
 
             // Create a new jsPDF instance
-            var pdf = new jsPDF();
+            var pdf = new jsPDF('p', 'mm', 'a4');
 
             // Add the image to the PDF
-            pdf.addImage(imgData, 'PNG', 0, 0);
+            pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
 
             // Save the PDF with a desired file name
             pdf.save('downloaded_section.pdf');
