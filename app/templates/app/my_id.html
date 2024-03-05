@@ -24,7 +24,6 @@
         </ol>
     </section>
 
-    <span class="page">
     <span class="content">
         <section class="content">
             <div class="row">
@@ -218,14 +217,13 @@
             </div>
         </section>
     </span>
-    </span>
 </div>
 <script>
     document.getElementById('downloadButton').addEventListener('click', function () {
         // Ensure jsPDF is available globally
         var jsPDF = window.jspdf.jsPDF;
 
-        var section = document.querySelector('.page');
+        var section = document.querySelector('.content');  // Update the selector to target the correct element
 
         // Use html2canvas to render the section to an image
         html2canvas(section).then(function (canvas) {
