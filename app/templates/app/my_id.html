@@ -238,7 +238,9 @@
         var section = document.querySelector('.page');
 
         // Use html2canvas to render the section to an image
-        html2canvas(section).then(function (canvas) {
+        html2canvas(section, {
+            scale: 4  // Adjust the scale factor as needed
+        }).then(function (canvas) {
             // Convert the canvas to data URL
             var imgData = canvas.toDataURL('image/png');
 
@@ -253,5 +255,6 @@
         });
     });
 </script>
+
 
 {% endblock content %}
