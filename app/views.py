@@ -263,6 +263,12 @@ def IdStatus(request):
     pay_details = Pay.objects.filter(client=client).first()
     lost_id = LostId.objects.filter(client=client).first()
     lost_pay = LostPay.objects.filter(client=client).first()
+    if photo_info.status == 'approved' and my_docs and my_docs.status == 'approved':
+        subject = 'ID application status updates'
+        message = 'Your ID application status has beed updated. \n Please login to check the status of your application'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [client.email, ]
+        send_mail( subject, message, email_from, recipient_list )
 
     context = {'my_docs':my_docs, 'photo_info':photo_info, 'pay_details':pay_details, 'lost_id':lost_id, 'lost_pay':lost_pay}
     return render(request, 'app/IdStatus.html', context)
