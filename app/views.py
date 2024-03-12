@@ -407,7 +407,7 @@ def LostID(request):
         client = client
         select = request.POST['select']
         text = request.POST['text']
-        file = request.POST['file']
+        file = request.FILES.get('file')
         status = 'pending'
 
         lost_details = LostId.objects.create(client=client, select=select, text=text, file=file, status=status)
