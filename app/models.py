@@ -102,6 +102,7 @@ class LostId(models.Model):
     created_time = models.TimeField(auto_now_add=True)
     select = models.CharField(max_length=200)
     text = models.CharField(max_length=500)
+    file = models.FileField(upload_to='media')
     status = models.CharField(max_length=200, choices=status, default='pending')
 
 class LostPay(models.Model):
