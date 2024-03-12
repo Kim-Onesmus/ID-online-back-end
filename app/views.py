@@ -445,7 +445,7 @@ def ContactUs(request):
         recipient_list = [settings.EMAIL_HOST_USER, ]
         send_mail( subject, message, email_from, recipient_list )
 
-        message.info(request, 'Messange sent')
+        messages.info(request, 'Messange sent')
         return redirect('index')
 
     return render(request, 'app/contact.html')
