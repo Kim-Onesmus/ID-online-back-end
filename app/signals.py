@@ -2,6 +2,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
+from django.urls import reverse
 
 from .models import Photo, ConfirmationDocument
 
@@ -15,10 +16,10 @@ def send_status_update_email(sender, instance, **kwargs):
         # Check if status or reason is changed
         if old_instance.status != instance.status or old_instance.reason != instance.reason:
             subject = 'ID application status updates'
-            
+            login_url = reverse('login')
             # Include the reasons in the email message
             if instance.reason:
-                message = f'Your ID application status has been updated to {instance.status}.\nReason: {instance.reason}\nPlease <a href="{'login'}">log in</a> to check the status of your application.'
+                message = f'Your ID application status has been updated to {instance.status}.\nReason: {instance.reason}\nPlease <a href="{login_url}">log in</a> to check the status of your application.'
             else:
                 message = 'Your ID application status has been updatedto {instance.status}. \nPlease log in to check the status of your application.'
             
