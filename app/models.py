@@ -1,4 +1,9 @@
+import random
+import string
+
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 
 
@@ -76,8 +81,47 @@ class IDCard(models.Model):
     id_number = models.PositiveIntegerField(unique=True)
     back_serial = models.CharField(max_length=12, unique=True)
     random_number = models.CharField(max_length=200, unique=True)
-    principal_sign = models.ImageField()
+    principal_sign = models.ImageField(default='sign.png', blank=True)
 
+def generate_random_number(length):
+    """Generate a random number of a specified length."""
+    return ''.join(random.choices(string.digits, k=length))
+
+def generate_back_serial(length):
+    """Generate a random number of a specified length starting with 'T'."""
+    return 'T' + ''.join(random.choices(string.digits, k=length-1))
+
+def generate_unique_id_number():
+    """Generate a unique ID number by incrementing a counter."""
+    last_id_card = IDCard.objects.order_by('-id_number').first()
+    if last_id_card:
+        return last_id_card.id_number + 1
+    else:
+        return 38917851  # Initial value
+
+@receiver(post_save, sender=IDCard)
+def create_id_number(sender, instance, created, **kwargs):
+    """Automatically generate and assign id_number when an IDCard is created."""
+    if created:
+        instance.id_number = generate_unique_id_number()
+        instance.save()
+
+@receiver(post_save, sender=Photo)
+@receiver(post_save, sender=ConfirmationDocument)
+def create_id_card(sender, instance, **kwargs):
+    if instance.status == 'approved':
+        # Check if the IDCard already exists for the client
+        id_card_exists = IDCard.objects.filter(client=instance.client).exists()
+
+        if not id_card_exists:
+            # Create a new IDCard for the client
+            id_card = IDCard.objects.create(
+                client=instance.client,
+                serial_number=random.randint(10**8, 10**9 - 1),
+                back_serial=generate_back_serial(8),
+                random_number=generate_random_number(30),
+            )
+            id_card.save()
 
 class Contact(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
