@@ -223,8 +223,8 @@ def savePhoto(request):
                 photo.status = 'pending'
                 photo.save()
                 
-                return redirect('id_status')
                 return JsonResponse({'status': 'success', 'photo_id': photo.id})
+                return redirect('id_status')
             else:
                 print(form.errors)
                 return JsonResponse({'status': 'error', 'message': 'Form is not valid'})
